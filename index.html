@@ -1,0 +1,1756 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Galih Pandawa Putra — Full-Stack Web Developer</title>
+<meta name="description" content="Full-Stack Web Developer focused on building modern web applications, business systems, and AI-powered solutions.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2322d3ee'/%3E%3Ctext x='16' y='21.5' font-family='Arial,sans-serif' font-size='13' font-weight='700' fill='%23042a33' text-anchor='middle'%3EGP%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   Tokens & Reset
+============================================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #0a0a0c;
+  --surface: #101014;
+  --surface-2: #16161c;
+  --surface-3: #1d1d24;
+  --border: rgba(255, 255, 255, .08);
+  --border-strong: rgba(255, 255, 255, .18);
+  --text: #f2f2f4;
+  --text-2: #a3a3ad;
+  --text-3: #6f6f7a;
+  --accent: #22d3ee;
+  --accent-2: #67e8f9;
+  --accent-dim: rgba(34, 211, 238, .1);
+  --accent-text: #042a33;
+  --green: #34d399;
+  --radius: 16px;
+  --radius-sm: 10px;
+  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  --ease: cubic-bezier(.22, .61, .36, 1);
+}
+
+html { scroll-behavior: smooth; scroll-padding-top: 92px; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+::selection { background: rgba(34, 211, 238, .25); color: #fff; }
+
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: #26262e; border-radius: 8px; border: 2px solid var(--bg); }
+::-webkit-scrollbar-thumb:hover { background: #33333d; }
+
+img, svg { display: block; }
+a { color: inherit; }
+ul { list-style: none; }
+button { font-family: inherit; }
+input { font-family: inherit; }
+
+.container { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
+.section { padding: 104px 0; position: relative; }
+
+/* Background ambient glows */
+.bg-decor { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
+.bg-decor::before {
+  content: ""; position: absolute; top: -22%; left: 50%; transform: translateX(-50%);
+  width: 1200px; height: 820px;
+  background: radial-gradient(ellipse at center, rgba(34, 211, 238, .06), transparent 62%);
+}
+.bg-decor::after {
+  content: ""; position: absolute; bottom: -30%; right: -12%;
+  width: 900px; height: 720px;
+  background: radial-gradient(ellipse at center, rgba(34, 211, 238, .045), transparent 62%);
+}
+
+/* ============================================================
+   Shared components
+============================================================ */
+.section-label {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-family: var(--font-mono); font-size: 12px; font-weight: 500;
+  letter-spacing: .16em; text-transform: uppercase; color: var(--text-3);
+}
+.section-label .idx { color: var(--accent); }
+.section-label::after { content: ""; width: 32px; height: 1px; background: var(--border-strong); }
+
+.section-head { max-width: 680px; margin-bottom: 56px; }
+.section-head h2 {
+  font-size: clamp(1.9rem, 3.2vw, 2.6rem);
+  letter-spacing: -.02em; line-height: 1.15; font-weight: 700;
+  margin: 16px 0 12px;
+}
+.section-head .section-sub { color: var(--text-2); font-size: 17px; }
+.section-head.center { margin-left: auto; margin-right: auto; text-align: center; }
+.section-head.center .section-label { justify-content: center; }
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  font-weight: 600; font-size: 15px; line-height: 1.2;
+  border-radius: var(--radius-sm); padding: 13px 22px;
+  border: 1px solid transparent; cursor: pointer; text-decoration: none;
+  transition: transform .25s var(--ease), box-shadow .25s var(--ease),
+              background .25s var(--ease), border-color .25s var(--ease), color .25s var(--ease);
+}
+.btn-primary { background: var(--accent); color: var(--accent-text); }
+.btn-primary:hover {
+  box-shadow: 0 0 0 1px var(--accent), 0 10px 34px rgba(34, 211, 238, .3);
+  transform: translateY(-2px);
+}
+.btn-ghost { background: var(--surface); border-color: var(--border-strong); color: var(--text); }
+.btn-ghost:hover { border-color: rgba(255, 255, 255, .34); background: var(--surface-2); transform: translateY(-2px); }
+.btn-sm { padding: 9px 16px; font-size: 14px; }
+.btn .ic { width: 16px; height: 16px; }
+
+.chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 6px 12px; border-radius: 999px;
+  border: 1px solid var(--border-strong);
+  background: rgba(255, 255, 255, .03);
+  color: var(--text-2); font-size: 13px; font-weight: 500; white-space: nowrap;
+}
+.tech-chip {
+  display: inline-flex; align-items: center;
+  padding: 5px 11px; border-radius: 7px;
+  border: 1px solid var(--border-strong);
+  background: rgba(255, 255, 255, .03);
+  font-family: var(--font-mono); font-size: 12px; color: var(--text-2);
+  transition: border-color .2s, color .2s, background .2s;
+}
+.tech-chip:hover { border-color: rgba(34, 211, 238, .45); color: var(--accent-2); background: var(--accent-dim); }
+
+.tag {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 4px 10px; border-radius: 999px;
+  font-size: 12px; font-weight: 600; letter-spacing: .03em;
+  border: 1px solid var(--border-strong); color: var(--text-2); white-space: nowrap;
+}
+.tag.featured {
+  color: var(--accent-2); border-color: rgba(34, 211, 238, .35);
+  background: var(--accent-dim);
+}
+.tag .star { width: 11px; height: 11px; }
+
+/* Reveal on scroll */
+.reveal { opacity: 0; transform: translateY(26px); transition: opacity .7s var(--ease), transform .7s var(--ease); transition-delay: var(--d, 0s); }
+.reveal.in-view { opacity: 1; transform: none; }
+
+/* ============================================================
+   Navigation
+============================================================ */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  transition: background .3s var(--ease), border-color .3s var(--ease), box-shadow .3s var(--ease);
+  border-bottom: 1px solid transparent;
+}
+.nav.scrolled {
+  background: rgba(10, 10, 12, .82);
+  -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+  border-bottom-color: var(--border);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, .35);
+}
+.nav-inner { height: 72px; display: flex; align-items: center; justify-content: flex-start; gap: 24px; }
+.nav-actions { display: flex; align-items: center; gap: 14px; }
+
+.logo { display: inline-flex; align-items: center; gap: 11px; text-decoration: none; margin-right: auto; }
+.logo-mark {
+  width: 34px; height: 34px; border-radius: 10px;
+  background: linear-gradient(135deg, var(--accent), #0e7490);
+  display: grid; place-items: center;
+  font-family: var(--font-mono); font-weight: 700; font-size: 12.5px; color: var(--accent-text);
+  box-shadow: 0 0 22px rgba(34, 211, 238, .25);
+}
+.logo-text { font-weight: 700; font-size: 16px; letter-spacing: -.01em; }
+.logo-text span { color: var(--text-3); font-weight: 500; }
+
+.nav-menu { display: flex; align-items: center; gap: 20px; }
+.nav-links { display: flex; align-items: center; gap: 2px; }
+.nav-links a {
+  display: inline-block; padding: 8px 14px; border-radius: 8px;
+  color: var(--text-2); font-size: 14.5px; font-weight: 500; text-decoration: none;
+  transition: color .2s, background .2s;
+}
+.nav-links a:hover { color: var(--text); }
+.nav-links a.active { color: var(--text); background: rgba(255, 255, 255, .05); }
+
+.nav-toggle {
+  display: none; flex-direction: column; justify-content: center; gap: 5px;
+  width: 42px; height: 42px; border-radius: 10px;
+  background: var(--surface); border: 1px solid var(--border-strong); cursor: pointer;
+}
+.nav-toggle span { display: block; width: 18px; height: 2px; margin: 0 auto; background: var(--text); border-radius: 2px; transition: transform .3s var(--ease), opacity .2s; }
+.nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-toggle.open span:nth-child(2) { opacity: 0; }
+.nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+.lang-switch {
+  display: inline-flex; align-items: center; gap: 2px;
+  border: 1px solid var(--border-strong); border-radius: 999px;
+  padding: 3px; background: var(--surface);
+}
+.lang-btn {
+  border: none; background: transparent; cursor: pointer;
+  font-family: var(--font-mono); font-size: 12px; font-weight: 600;
+  color: var(--text-3); padding: 4px 11px; border-radius: 999px;
+  transition: color .2s, background .2s;
+}
+.lang-btn:hover { color: var(--text); }
+.lang-btn.active { background: var(--accent); color: var(--accent-text); }
+
+/* ============================================================
+   Hero
+============================================================ */
+.hero { position: relative; padding: 176px 0 128px; overflow: hidden; }
+.hero::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background:
+    linear-gradient(rgba(255, 255, 255, .028) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, .028) 1px, transparent 1px);
+  background-size: 56px 56px;
+  -webkit-mask-image: radial-gradient(ellipse 72% 62% at 50% 28%, #000 30%, transparent 78%);
+  mask-image: radial-gradient(ellipse 72% 62% at 50% 28%, #000 30%, transparent 78%);
+}
+
+.hero-grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: 72px; align-items: center; position: relative; }
+
+.avail {
+  display: inline-flex; align-items: center; gap: 9px;
+  padding: 7px 14px; border-radius: 999px;
+  border: 1px solid rgba(52, 211, 153, .3); background: rgba(52, 211, 153, .08);
+  font-size: 13px; font-weight: 500; color: #a7f3d0;
+  margin-bottom: 28px;
+}
+.avail-dot { position: relative; width: 8px; height: 8px; border-radius: 50%; background: var(--green); }
+.avail-dot::after {
+  content: ""; position: absolute; inset: -4px; border-radius: 50%;
+  border: 1px solid var(--green); opacity: 0;
+  animation: pulse 2.2s var(--ease) infinite;
+}
+@keyframes pulse {
+  0% { transform: scale(.6); opacity: .9; }
+  70% { transform: scale(1.5); opacity: 0; }
+  100% { opacity: 0; }
+}
+
+.hero h1 {
+  font-size: clamp(2.55rem, 5vw, 3.75rem);
+  font-weight: 800; letter-spacing: -.035em; line-height: 1.07;
+  margin-bottom: 22px;
+}
+.hero h1 .grad {
+  background: linear-gradient(92deg, #e8fbff 10%, var(--accent) 90%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.hero-sub { color: var(--text-2); font-size: 18px; max-width: 540px; margin-bottom: 30px; }
+
+.hero-badges { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 36px; }
+.hero-ctas { display: flex; flex-wrap: wrap; gap: 12px; }
+
+/* ---- Hero visual (floating panels) ---- */
+.hero-visual { position: relative; padding: 60px 0; will-change: transform; }
+.hv-glow {
+  position: absolute; inset: 6% -8%; z-index: 0; pointer-events: none;
+  background: radial-gradient(ellipse at center, rgba(34, 211, 238, .12), transparent 68%);
+  filter: blur(10px);
+}
+.visual-card {
+  background: var(--surface); border: 1px solid var(--border-strong); border-radius: 14px;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, .5);
+}
+
+/* main dashboard card */
+.card-main { position: relative; z-index: 1; animation: floaty 7s ease-in-out infinite; }
+@keyframes floaty { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-9px); } }
+
+.vc-head {
+  display: flex; align-items: center; gap: 12px;
+  padding: 11px 14px; border-bottom: 1px solid var(--border);
+  background: rgba(255, 255, 255, .02);
+}
+.vc-title { font-family: var(--font-mono); font-size: 11.5px; color: var(--text-3); }
+
+.browser-dots { display: flex; gap: 6px; }
+.browser-dots i { width: 10px; height: 10px; border-radius: 50%; }
+.browser-dots i:nth-child(1) { background: #ff5f57; }
+.browser-dots i:nth-child(2) { background: #febc2e; }
+.browser-dots i:nth-child(3) { background: #28c840; }
+
+.card-main-body { display: grid; grid-template-columns: 46px 1fr; min-height: 300px; }
+.vc-sidebar { border-right: 1px solid var(--border); padding: 14px 10px; display: flex; flex-direction: column; align-items: center; gap: 14px; }
+.vs-logo { width: 20px; height: 20px; border-radius: 6px; background: linear-gradient(135deg, var(--accent), #0e7490); }
+.vs-item { width: 22px; height: 8px; border-radius: 4px; background: rgba(255, 255, 255, .14); }
+.vs-item.active { background: rgba(34, 211, 238, .55); box-shadow: 0 0 12px rgba(34, 211, 238, .35); }
+
+.vc-panel { padding: 18px; display: flex; flex-direction: column; gap: 18px; }
+.vc-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.vs-card { border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; background: rgba(255, 255, 255, .02); }
+.vs-label { display: block; font-size: 11px; color: var(--text-3); margin-bottom: 4px; letter-spacing: .03em; }
+.vs-num { display: block; font-family: var(--font-mono); font-weight: 600; font-size: 19px; letter-spacing: -.02em; }
+.vs-trend { display: inline-block; font-size: 10.5px; font-weight: 600; margin-top: 3px; color: var(--text-3); font-family: var(--font-mono); }
+.vs-trend.up { color: var(--green); }
+
+.vc-chart { border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; background: rgba(255, 255, 255, .02); }
+.vc-chart-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+.vc-chart-head span:first-child { font-size: 12px; color: var(--text-2); font-weight: 600; }
+.vc-chart-tag { font-family: var(--font-mono); font-size: 10.5px; color: var(--text-3); border: 1px solid var(--border); padding: 2px 8px; border-radius: 999px; }
+.vc-bars { display: flex; align-items: flex-end; gap: 7px; height: 108px; }
+.vc-bars i { flex: 1; border-radius: 4px 4px 2px 2px; background: rgba(255, 255, 255, .13); height: 30%; transition: height .6s var(--ease), background .3s; }
+.vc-bars i:nth-child(1) { height: 38%; }
+.vc-bars i:nth-child(2) { height: 56%; }
+.vc-bars i:nth-child(3) { height: 46%; }
+.vc-bars i:nth-child(4) { height: 66%; }
+.vc-bars i:nth-child(5) { height: 54%; }
+.vc-bars i:nth-child(6) { height: 88%; background: var(--accent); box-shadow: 0 0 18px rgba(34, 211, 238, .45); }
+.vc-bars i:nth-child(7) { height: 72%; }
+.vc-bars i:nth-child(8) { height: 80%; }
+.vc-bars i:nth-child(9) { height: 62%; }
+.vc-bars i:nth-child(10) { height: 90%; }
+.vc-x { display: flex; justify-content: space-between; margin-top: 9px; font-family: var(--font-mono); font-size: 9px; color: var(--text-3); }
+
+/* code card */
+.card-code {
+  position: absolute; top: -26px; left: -58px; width: 300px; z-index: 2;
+  animation: floaty 8.5s ease-in-out infinite reverse;
+}
+.code-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 9px 13px; border-bottom: 1px solid var(--border);
+  background: rgba(255, 255, 255, .02);
+}
+.code-file { font-family: var(--font-mono); font-size: 11px; color: var(--text-2); }
+.code-head .tag { padding: 2px 8px; font-size: 10px; color: var(--green); border-color: rgba(52, 211, 153, .3); background: rgba(52, 211, 153, .08); }
+.code-body { padding: 13px 14px; overflow: hidden; }
+.code-body code {
+  font-family: var(--font-mono); font-size: 10.5px; line-height: 1.75; color: var(--text-2);
+  white-space: pre;
+}
+.c-com { color: var(--text-3); font-style: italic; }
+.c-kw { color: #e2e8f0; font-weight: 600; }
+.c-fn { color: var(--accent-2); }
+.c-var { color: #a5b4fc; }
+.c-str { color: #86efac; }
+
+/* database card */
+.card-db {
+  position: absolute; bottom: -16px; right: -26px; z-index: 2;
+  display: flex; align-items: center; gap: 12px;
+  padding: 13px 16px; border-radius: 12px;
+  animation: floaty 6s ease-in-out infinite 1.2s;
+}
+.db-icon {
+  width: 36px; height: 36px; border-radius: 10px;
+  background: var(--accent-dim); border: 1px solid rgba(34, 211, 238, .3);
+  display: flex; flex-direction: column; justify-content: center; gap: 3px; align-items: center;
+}
+.db-icon i { width: 14px; height: 3px; border-radius: 2px; background: var(--accent); opacity: .85; }
+.db-icon i:nth-child(2) { width: 10px; }
+.db-title { display: block; font-family: var(--font-mono); font-weight: 600; font-size: 13px; color: var(--text); }
+.db-sub { display: block; font-size: 11px; color: var(--text-3); margin-top: 1px; }
+.db-status { width: 8px; height: 8px; border-radius: 50%; background: var(--green); box-shadow: 0 0 10px rgba(52, 211, 153, .8); }
+
+/* ============================================================
+   Featured Projects
+============================================================ */
+.projects-section { border-top: 1px solid var(--border); }
+
+.project {
+  display: grid; grid-template-columns: 1.12fr .88fr; gap: 64px; align-items: center;
+  padding: 80px 0; border-top: 1px solid var(--border);
+}
+.project:first-of-type { border-top: none; }
+.project:nth-child(even) .project-visual { order: -1; }
+
+.project-visual { position: relative; }
+.project-visual .browser { transition: transform .5s var(--ease), box-shadow .5s var(--ease), border-color .5s var(--ease); }
+.project:hover .project-visual .browser { transform: translateY(-6px); box-shadow: 0 34px 80px rgba(0, 0, 0, .55); border-color: rgba(34, 211, 238, .35); }
+
+/* real project screenshot — shown at natural aspect, replaces the CSS mockup on load */
+.project-shot {
+  display: block; width: 100%; height: auto;
+  border-radius: 14px; border: 1px solid var(--border-strong);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, .45);
+  transition: transform .5s var(--ease), box-shadow .5s var(--ease), border-color .5s var(--ease);
+}
+.project:hover .project-shot { transform: translateY(-6px); box-shadow: 0 34px 80px rgba(0, 0, 0, .55); border-color: rgba(34, 211, 238, .35); }
+.project-visual.has-shot .browser,
+.project-visual.has-shot .p03-wrap { display: none; }
+.cs-shot.has-shot .browser { display: none; }
+
+.project-meta { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; }
+.project-num { font-family: var(--font-mono); font-weight: 600; font-size: 13px; color: var(--accent); letter-spacing: .06em; }
+.project-info h3 { font-size: clamp(1.45rem, 2.2vw, 1.85rem); letter-spacing: -.02em; line-height: 1.2; font-weight: 700; margin-bottom: 14px; }
+.project-info > p { color: var(--text-2); font-size: 16px; margin-bottom: 20px; max-width: 480px; }
+.project-tech { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 26px; }
+.project-link { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; font-size: 15px; color: var(--accent-2); text-decoration: none; }
+.project-link .arr { transition: transform .25s var(--ease); }
+.project-link:hover .arr { transform: translateX(4px); }
+
+/* browser frame used by all project shots */
+.browser { border: 1px solid var(--border-strong); border-radius: 14px; overflow: hidden; background: var(--surface); box-shadow: 0 24px 60px rgba(0, 0, 0, .45); }
+.browser-bar { display: flex; align-items: center; gap: 12px; padding: 10px 14px; background: rgba(255, 255, 255, .02); border-bottom: 1px solid var(--border); }
+.browser-url {
+  flex: 1; display: flex; align-items: center; justify-content: center; gap: 7px;
+  background: rgba(255, 255, 255, .04); border: 1px solid var(--border);
+  border-radius: 7px; padding: 4px 10px;
+  font-family: var(--font-mono); font-size: 11px; color: var(--text-3); white-space: nowrap; overflow: hidden;
+}
+.browser-url .lock { width: 9px; height: 9px; border: 1.5px solid var(--text-3); border-radius: 2px; position: relative; flex: none; }
+.browser-url .lock::after { content: ""; position: absolute; top: -5px; left: 1.5px; width: 4px; height: 4px; border: 1.5px solid var(--text-3); border-bottom: none; border-radius: 3px 3px 0 0; }
+.browser-body { background: var(--surface-2); }
+
+/* ---- Project 01: company / e-commerce site ---- */
+.p01 { padding: 20px; display: flex; flex-direction: column; gap: 16px; }
+.p01-nav { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 0 4px; }
+.p01-brand { font-size: 12.5px; font-weight: 700; letter-spacing: -.01em; color: var(--text); }
+.p01-brand em { font-style: normal; color: var(--accent); }
+.p01-menu { display: flex; gap: 4px; }
+.p01-menu i { width: 14px; height: 2px; border-radius: 2px; background: rgba(255, 255, 255, .35); }
+.p01-cta { font-size: 10.5px; font-weight: 600; padding: 5px 12px; border-radius: 999px; border: 1px solid var(--border-strong); color: var(--text-2); }
+
+.p01-hero {
+  display: grid; grid-template-columns: 1.15fr .85fr; align-items: center; gap: 16px;
+  border: 1px solid var(--border); border-radius: 12px; padding: 22px 22px 18px;
+  background: linear-gradient(135deg, rgba(34, 211, 238, .06), transparent 55%);
+}
+.p01-copy { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; }
+.p01-kicker { font-family: var(--font-mono); font-size: 9.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); }
+.p01-title { width: 86%; height: 13px; border-radius: 4px; background: rgba(255, 255, 255, .5); }
+.p01-sub { width: 62%; height: 7px; border-radius: 4px; background: rgba(255, 255, 255, .16); }
+.p01-btns { display: flex; gap: 7px; margin-top: 6px; }
+.p01-btns i { height: 17px; border-radius: 5px; }
+.p01-btns i.solid { width: 66px; background: var(--accent); }
+.p01-btns i.outline { width: 52px; border: 1px solid rgba(255, 255, 255, .28); }
+
+.lap { position: relative; width: 88px; height: 62px; justify-self: center; }
+.lap-screen {
+  position: absolute; inset: 0 6px 10px 6px;
+  border: 2px solid rgba(255, 255, 255, .45); border-radius: 6px;
+  background: rgba(255, 255, 255, .06);
+  display: flex; flex-direction: column; gap: 5px; padding: 10px 8px;
+}
+.lap-screen i { height: 3.5px; border-radius: 2px; background: rgba(255, 255, 255, .4); }
+.lap-screen i:nth-child(2) { width: 60%; }
+.lap-base { position: absolute; left: 0; right: 0; bottom: 0; height: 7px; border-radius: 3px; background: rgba(255, 255, 255, .5); }
+
+.p01-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.p01-prod { border: 1px solid var(--border); border-radius: 10px; padding: 10px; background: rgba(255, 255, 255, .02); display: flex; flex-direction: column; gap: 7px; }
+.p01-img { height: 58px; border-radius: 7px; background: linear-gradient(135deg, rgba(34, 211, 238, .16), rgba(255, 255, 255, .05)); display: grid; place-items: center; }
+.p01-img .lap { width: 46px; height: 34px; }
+.p01-img .lap-screen { border-width: 1.5px; inset: 0 3px 6px 3px; padding: 5px 5px; gap: 3px; }
+.p01-img .lap-screen i { height: 2.5px; }
+.p01-img .lap-base { height: 4.5px; }
+.p01-name { width: 78%; height: 7px; border-radius: 3px; background: rgba(255, 255, 255, .16); }
+.p01-price { font-family: var(--font-mono); font-size: 10.5px; font-weight: 600; color: var(--text-2); }
+.p01-buy { font-size: 9.5px; font-weight: 600; text-align: center; padding: 5px 0; border-radius: 6px; background: rgba(34, 211, 238, .14); color: var(--accent-2); border: 1px solid rgba(34, 211, 238, .25); }
+
+/* ---- Project 02: AI price list dashboard ---- */
+.p02 { padding: 18px; display: flex; flex-direction: column; gap: 14px; }
+.p02-top { display: flex; align-items: center; gap: 12px; }
+.p02-search {
+  flex: 1; display: flex; align-items: center; gap: 9px;
+  background: rgba(255, 255, 255, .04); border: 1px solid var(--border-strong);
+  border-radius: 9px; padding: 9px 13px;
+}
+.ico-search { width: 13px; height: 13px; border: 1.6px solid var(--text-3); border-radius: 50%; position: relative; flex: none; }
+.ico-search::after { content: ""; position: absolute; width: 6px; height: 1.6px; background: var(--text-3); transform: rotate(45deg); right: -5px; top: 8px; border-radius: 2px; }
+.p02-search-ph { font-size: 12px; color: var(--text-3); }
+.p02-avatar { width: 30px; height: 30px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), #0e7490); flex: none; }
+
+.p02-filters { display: flex; flex-wrap: wrap; gap: 7px; }
+.f-chip {
+  font-size: 11.5px; font-weight: 500; color: var(--text-2);
+  padding: 6px 12px; border-radius: 999px;
+  border: 1px solid var(--border-strong); background: rgba(255, 255, 255, .03); white-space: nowrap;
+}
+.f-chip.active { color: var(--accent-text); background: var(--accent); border-color: var(--accent); font-weight: 600; }
+
+.p02-body { display: grid; grid-template-columns: 1.35fr 1fr; gap: 14px; align-items: start; }
+.p02-list { border: 1px solid var(--border); border-radius: 11px; overflow: hidden; background: rgba(255, 255, 255, .02); }
+.p02-row { display: grid; grid-template-columns: 1.1fr 1.2fr .9fr; gap: 10px; align-items: center; padding: 10px 13px; border-top: 1px solid var(--border); }
+.p02-row.head { border-top: none; background: rgba(255, 255, 255, .03); }
+.p02-row.head span { font-size: 9.5px; text-transform: uppercase; letter-spacing: .12em; color: var(--text-3); font-weight: 600; }
+.p02-p { display: flex; flex-direction: column; gap: 2px; }
+.p02-pname { font-size: 12px; font-weight: 600; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.p02-pbrand { font-size: 10px; color: var(--text-3); }
+.p02-specs { display: flex; flex-wrap: wrap; gap: 4px; }
+.spec-tag { font-family: var(--font-mono); font-size: 9px; color: var(--text-2); border: 1px solid var(--border-strong); padding: 2px 6px; border-radius: 5px; }
+.p02-price { font-family: var(--font-mono); font-size: 11px; font-weight: 600; color: var(--accent-2); text-align: right; white-space: nowrap; }
+.p02-compare { display: flex; align-items: center; gap: 8px; padding: 10px 13px; border-top: 1px solid var(--border); font-size: 11px; color: var(--text-2); }
+.check { width: 14px; height: 14px; border-radius: 4px; border: 1px solid var(--accent); background: var(--accent); position: relative; }
+.check::after { content: ""; position: absolute; left: 4px; top: 1px; width: 4px; height: 7px; border: solid var(--accent-text); border-width: 0 2px 2px 0; transform: rotate(45deg); }
+
+.p02-ai { border: 1px solid rgba(34, 211, 238, .3); border-radius: 11px; overflow: hidden; background: linear-gradient(160deg, rgba(34, 211, 238, .05), rgba(255, 255, 255, .01)); }
+.p02-ai-head { display: flex; align-items: center; gap: 7px; padding: 10px 13px; border-bottom: 1px solid rgba(34, 211, 238, .2); font-size: 12px; font-weight: 600; }
+.ai-spark { color: var(--accent); font-size: 13px; }
+.ai-status { margin-left: auto; font-size: 9.5px; font-weight: 500; color: var(--green); display: inline-flex; align-items: center; gap: 5px; }
+.ai-status::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--green); box-shadow: 0 0 8px rgba(52, 211, 153, .7); }
+.ai-bubble { font-size: 11px; line-height: 1.5; margin: 10px 12px 0; padding: 8px 11px; border-radius: 10px; }
+.ai-bubble.user { background: rgba(255, 255, 255, .05); border: 1px solid var(--border); color: var(--text-2); border-bottom-right-radius: 3px; }
+.ai-bubble.bot { background: rgba(34, 211, 238, .1); border: 1px solid rgba(34, 211, 238, .28); color: var(--text); border-bottom-left-radius: 3px; }
+.ai-bubble.bot b { color: var(--accent-2); font-weight: 600; }
+.ai-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); margin-right: 5px; vertical-align: 1px; }
+.ai-chips { display: flex; flex-wrap: wrap; gap: 6px; padding: 10px 12px 0; }
+.ai-chips span { font-size: 10px; color: var(--accent-2); border: 1px solid rgba(34, 211, 238, .3); background: var(--accent-dim); padding: 4px 9px; border-radius: 999px; }
+.ai-input {
+  display: flex; align-items: center; justify-content: space-between;
+  margin: 12px; padding: 9px 12px; border-radius: 9px;
+  background: rgba(255, 255, 255, .04); border: 1px solid var(--border-strong);
+  font-size: 10.5px; color: var(--text-3);
+}
+.ai-send { width: 20px; height: 20px; border-radius: 6px; background: var(--accent); display: grid; place-items: center; font-size: 9px; color: var(--accent-text); font-weight: 700; }
+
+/* ---- Project 03: label printing system ---- */
+.p03-wrap { position: relative; }
+.p03 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; padding: 20px; }
+.p03-form { border: 1px solid var(--border); border-radius: 11px; padding: 14px; background: rgba(255, 255, 255, .02); display: flex; flex-direction: column; gap: 10px; }
+.p03-fhead { font-size: 11px; font-weight: 700; letter-spacing: .05em; color: var(--text-2); text-transform: uppercase; margin-bottom: 2px; }
+.field { display: flex; flex-direction: column; gap: 4px; }
+.field span { font-size: 9.5px; color: var(--text-3); font-weight: 500; letter-spacing: .04em; text-transform: uppercase; }
+.field input {
+  background: rgba(255, 255, 255, .04); border: 1px solid var(--border-strong);
+  border-radius: 7px; padding: 7px 10px; color: var(--text); font-size: 11px; outline: none;
+}
+.field input:focus { border-color: rgba(34, 211, 238, .5); }
+.p03-row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+.p03-right { display: flex; flex-direction: column; gap: 10px; }
+.p03-layouts { display: flex; gap: 6px; }
+.lay { font-size: 10px; font-weight: 600; color: var(--text-3); padding: 5px 11px; border-radius: 999px; border: 1px solid var(--border-strong); }
+.lay.active { color: var(--accent-2); border-color: rgba(34, 211, 238, .4); background: var(--accent-dim); }
+.p03-preview { flex: 1; border: 1px solid var(--border); border-radius: 11px; padding: 12px; background: rgba(255, 255, 255, .02); display: grid; place-items: center; }
+
+.label { width: 100%; max-width: 250px; background: var(--surface-3); border: 1px solid var(--border-strong); border-radius: 9px; padding: 13px; display: flex; flex-direction: column; gap: 10px; }
+.label-head { display: flex; align-items: center; justify-content: space-between; }
+.label-brand { font-size: 11px; font-weight: 800; letter-spacing: .06em; }
+.label-code { font-family: var(--font-mono); font-size: 9px; color: var(--accent-2); border: 1px solid rgba(34, 211, 238, .3); border-radius: 5px; padding: 2px 6px; }
+.label-specs { display: flex; flex-direction: column; gap: 5px; }
+.ls { display: flex; justify-content: space-between; gap: 10px; font-size: 10px; border-bottom: 1px dashed var(--border); padding-bottom: 5px; }
+.ls:last-child { border-bottom: none; padding-bottom: 0; }
+.ls span { color: var(--text-3); }
+.ls b { font-weight: 600; color: var(--text); font-family: var(--font-mono); font-size: 9.5px; text-align: right; }
+
+.barcode { width: 110px; height: 22px; background: repeating-linear-gradient(90deg, currentColor 0 2px, transparent 2px 4px, currentColor 4px 5px, transparent 5px 8px, currentColor 8px 11px, transparent 11px 12px, currentColor 12px 13px, transparent 13px 16px, currentColor 16px 18px, transparent 18px 21px); color: rgba(255, 255, 255, .75); }
+
+.p03-actions { display: flex; gap: 8px; }
+.p03-actions .btn-print, .p03-actions .btn-save {
+  flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+  border-radius: 8px; padding: 8px 0; font-size: 11px; font-weight: 600; cursor: default;
+}
+.btn-print { background: var(--accent); color: var(--accent-text); }
+.btn-print svg { width: 13px; height: 13px; }
+.btn-save { border: 1px solid var(--border-strong); color: var(--text-2); }
+
+.printed {
+  position: absolute; right: -26px; bottom: -34px; z-index: 3;
+  width: 196px; background: #f5f5f4; color: #0a0a0c;
+  border-radius: 10px; padding: 13px 15px;
+  display: flex; flex-direction: column; gap: 5px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, .55);
+  transform: rotate(-2.5deg);
+  animation: floaty 7s ease-in-out infinite .6s;
+}
+.printed-brand { font-family: var(--font-mono); font-weight: 700; font-size: 10px; letter-spacing: .1em; }
+.printed-model { font-size: 12px; font-weight: 700; letter-spacing: -.01em; }
+.printed-line { font-family: var(--font-mono); font-size: 8.5px; color: #3f3f46; }
+.printed .barcode { color: #0a0a0c; width: 96px; height: 18px; margin-top: 3px; }
+.printed-tag { position: absolute; top: -8px; right: -8px; background: var(--accent); color: var(--accent-text); font-size: 8.5px; font-weight: 800; letter-spacing: .08em; padding: 3px 8px; border-radius: 999px; }
+
+/* ============================================================
+   Case Study
+============================================================ */
+.cs-section { border-top: 1px solid var(--border); }
+.cs-shot { margin-bottom: 72px; }
+.cs-shot .browser { box-shadow: 0 30px 90px rgba(0, 0, 0, .5); }
+
+.cs-overview { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; margin-bottom: 72px; }
+.cs-overview h3 { font-size: 26px; letter-spacing: -.02em; font-weight: 700; margin-bottom: 16px; }
+.cs-overview p { color: var(--text-2); font-size: 16.5px; }
+
+.cs-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 72px; }
+.cs-card { border: 1px solid var(--border); border-radius: var(--radius); padding: 26px; background: rgba(255, 255, 255, .02); transition: border-color .3s, transform .3s var(--ease); }
+.cs-card:hover { border-color: rgba(34, 211, 238, .35); transform: translateY(-3px); }
+.cs-card .cs-ic { width: 38px; height: 38px; border-radius: 10px; background: var(--accent-dim); border: 1px solid rgba(34, 211, 238, .25); display: grid; place-items: center; margin-bottom: 16px; }
+.cs-card .cs-ic svg { width: 18px; height: 18px; stroke: var(--accent); }
+.cs-card h4 { font-size: 16.5px; font-weight: 700; letter-spacing: -.01em; margin-bottom: 8px; }
+.cs-card p { color: var(--text-2); font-size: 14.5px; }
+
+.cs-block { margin-bottom: 72px; }
+.cs-block-title { font-family: var(--font-mono); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 22px; }
+.cs-features { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.cs-feature { display: flex; align-items: flex-start; gap: 12px; padding: 16px 18px; border: 1px solid var(--border); border-radius: 12px; background: rgba(255, 255, 255, .02); font-size: 15px; color: var(--text-2); }
+.cs-feature svg { width: 17px; height: 17px; flex: none; margin-top: 3px; stroke: var(--green); }
+
+.cs-tech { display: flex; flex-wrap: wrap; gap: 9px; }
+.cs-tech .tech-chip { font-size: 13px; padding: 7px 14px; }
+
+.cs-steps { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; counter-reset: step; }
+.cs-step { position: relative; border: 1px solid var(--border); border-radius: 12px; padding: 20px 18px; background: rgba(255, 255, 255, .02); }
+.cs-step-num { font-family: var(--font-mono); font-size: 12px; font-weight: 600; color: var(--accent); margin-bottom: 10px; }
+.cs-step h5 { font-size: 14.5px; font-weight: 700; margin-bottom: 6px; letter-spacing: -.01em; }
+.cs-step p { font-size: 12.5px; color: var(--text-3); line-height: 1.55; }
+.cs-step::before {
+  content: ""; position: absolute; top: 22px; right: -15px; width: 15px; height: 1px; background: var(--border-strong);
+}
+.cs-step:last-child::before { display: none; }
+
+.cs-result { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.cs-result-card { border: 1px solid rgba(34, 211, 238, .28); border-radius: var(--radius); padding: 28px; background: linear-gradient(160deg, rgba(34, 211, 238, .06), rgba(255, 255, 255, .01)); }
+.cs-result-card .r-title { font-size: 13px; font-weight: 700; color: var(--accent-2); letter-spacing: .02em; margin-bottom: 10px; }
+.cs-result-card p { color: var(--text-2); font-size: 14.5px; }
+
+/* ============================================================
+   Skills
+============================================================ */
+.skills-section { border-top: 1px solid var(--border); }
+.skills-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.skill-card {
+  border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 26px 24px; background: rgba(255, 255, 255, .02);
+  transition: border-color .3s, transform .3s var(--ease), box-shadow .3s;
+}
+.skill-card:hover { border-color: rgba(34, 211, 238, .35); transform: translateY(-4px); box-shadow: 0 18px 44px rgba(0, 0, 0, .35); }
+.skill-ic { width: 40px; height: 40px; border-radius: 11px; background: var(--accent-dim); border: 1px solid rgba(34, 211, 238, .25); display: grid; place-items: center; margin-bottom: 18px; }
+.skill-ic svg { width: 19px; height: 19px; stroke: var(--accent); }
+.skill-card h3 { font-size: 16.5px; font-weight: 700; letter-spacing: -.01em; margin-bottom: 14px; }
+.skill-chips { display: flex; flex-wrap: wrap; gap: 7px; }
+
+/* ============================================================
+   About
+============================================================ */
+.about-section { border-top: 1px solid var(--border); }
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: center; }
+.about-copy h2 { font-size: clamp(1.9rem, 3vw, 2.5rem); letter-spacing: -.02em; line-height: 1.18; font-weight: 700; margin-bottom: 20px; }
+.about-copy p { color: var(--text-2); font-size: 17px; max-width: 520px; }
+
+.mini-timeline { position: relative; padding-left: 28px; }
+.mini-timeline::before { content: ""; position: absolute; left: 6px; top: 8px; bottom: 8px; width: 1px; background: linear-gradient(var(--accent), var(--border-strong)); }
+.mt-item { position: relative; padding: 0 0 26px; }
+.mt-item:last-child { padding-bottom: 0; }
+.mt-item::before { content: ""; position: absolute; left: -26px; top: 6px; width: 11px; height: 11px; border-radius: 50%; background: var(--bg); border: 2px solid var(--accent); box-shadow: 0 0 12px rgba(34, 211, 238, .4); }
+.mt-item h4 { font-size: 15.5px; font-weight: 700; letter-spacing: -.01em; margin-bottom: 3px; }
+.mt-item p { font-size: 13.5px; color: var(--text-3); }
+
+/* ============================================================
+   Experience
+============================================================ */
+.exp-section { border-top: 1px solid var(--border); }
+.exp-timeline { max-width: 720px; position: relative; padding-left: 0; }
+.exp-item { display: grid; grid-template-columns: 130px 1fr; gap: 32px; padding: 0 0 40px; position: relative; }
+.exp-item:last-child { padding-bottom: 0; }
+.exp-item::before { content: ""; position: absolute; left: 130px; top: 12px; bottom: 8px; width: 1px; background: var(--border); }
+.exp-item:last-child::before { display: none; }
+.exp-year {
+  font-family: var(--font-mono); font-weight: 600; font-size: 13px;
+  color: var(--accent); letter-spacing: .04em;
+  display: inline-flex; align-items: center; gap: 10px;
+  height: fit-content; padding-top: 4px;
+}
+.exp-year .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 12px rgba(34, 211, 238, .6); flex: none; }
+.exp-card { border: 1px solid var(--border); border-radius: var(--radius); padding: 26px 28px; background: rgba(255, 255, 255, .02); }
+.exp-card-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
+.exp-card h3 { font-size: 19px; font-weight: 700; letter-spacing: -.01em; }
+.exp-card ul { display: grid; gap: 9px; }
+.exp-card ul li { position: relative; padding-left: 22px; color: var(--text-2); font-size: 15px; }
+.exp-card ul li::before { content: ""; position: absolute; left: 2px; top: 9px; width: 7px; height: 7px; border-radius: 2px; background: var(--accent); opacity: .8; }
+
+/* ============================================================
+   Contact & Footer
+============================================================ */
+.contact-section { border-top: 1px solid var(--border); overflow: hidden; position: relative; }
+.contact-section::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(ellipse 60% 90% at 50% 110%, rgba(34, 211, 238, .12), transparent 70%);
+}
+.contact-inner { text-align: center; max-width: 700px; margin: 0 auto; position: relative; }
+.contact-inner h2 { font-size: clamp(2.1rem, 4vw, 3.1rem); font-weight: 800; letter-spacing: -.03em; line-height: 1.1; margin: 18px 0 14px; }
+.contact-inner .contact-sub { color: var(--text-2); font-size: 19px; margin-bottom: 36px; }
+.contact-btns { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; }
+
+.footer { border-top: 1px solid var(--border); padding: 32px 0 36px; }
+.footer-inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.footer-meta { color: var(--text-3); font-size: 13.5px; }
+.footer-meta strong { color: var(--text-2); font-weight: 600; }
+.footer-note { color: var(--text-3); font-size: 13.5px; }
+.footer-note em { font-style: normal; color: var(--accent); }
+.to-top { display: inline-flex; align-items: center; gap: 7px; color: var(--text-3); font-size: 13px; text-decoration: none; transition: color .2s; }
+.to-top:hover { color: var(--accent-2); }
+.to-top svg { width: 14px; height: 14px; stroke: currentColor; }
+
+/* ============================================================
+   Responsive
+============================================================ */
+@media (max-width: 1080px) {
+  .hero-grid { gap: 48px; }
+  .card-code { left: -20px; }
+  .card-db { right: -10px; }
+  .printed { right: 6px; }
+  .cs-steps { grid-template-columns: repeat(3, 1fr); }
+  .cs-step::before { display: none; }
+}
+
+@media (max-width: 940px) {
+  .section { padding: 80px 0; }
+  .hero { padding: 148px 0 96px; }
+  .hero-grid { grid-template-columns: 1fr; gap: 56px; }
+  .hero-sub { max-width: 560px; }
+  .hero-visual { max-width: 560px; margin: 0 auto; width: 100%; }
+  .card-code { left: -6px; }
+  .card-db { right: -4px; }
+
+  .project { grid-template-columns: 1fr; gap: 40px; padding: 64px 0; }
+  .project:nth-child(even) .project-visual { order: 0; }
+  .project-info h3 { font-size: 1.6rem; }
+
+  .cs-overview { grid-template-columns: 1fr; gap: 24px; }
+  .cs-cards { grid-template-columns: 1fr; }
+  .skills-grid { grid-template-columns: repeat(2, 1fr); }
+  .about-grid { grid-template-columns: 1fr; gap: 48px; }
+  .cs-features { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 768px) {
+  .nav-inner { height: 64px; }
+  .nav-toggle { display: flex; }
+  .nav-menu {
+    position: absolute; top: 100%; left: 0; right: 0;
+    flex-direction: column; align-items: stretch; gap: 4px;
+    background: rgba(10, 10, 12, .96);
+    -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    padding: 16px 24px 20px;
+    opacity: 0; transform: translateY(-8px); pointer-events: none;
+    transition: opacity .3s var(--ease), transform .3s var(--ease);
+  }
+  .nav-menu.open { opacity: 1; transform: none; pointer-events: auto; }
+  .nav-links { flex-direction: column; align-items: stretch; gap: 2px; }
+  .nav-links a { padding: 12px 12px; font-size: 15px; }
+  .nav-cta { margin-top: 10px; justify-content: center; }
+
+  .section { padding: 64px 0; }
+  .section-head { margin-bottom: 40px; }
+  .p02-body { grid-template-columns: 1fr; }
+  .p03 { grid-template-columns: 1fr; }
+  .printed { position: static; margin-top: -10px; width: 100%; max-width: 260px; }
+  .p03-wrap { padding-bottom: 0; }
+  .cs-steps { grid-template-columns: repeat(2, 1fr); }
+  .cs-result { grid-template-columns: 1fr; }
+  .exp-item { grid-template-columns: 1fr; gap: 10px; }
+  .exp-item::before { display: none; }
+  .exp-year { padding-top: 0; }
+  .exp-card { padding: 22px; }
+}
+
+@media (max-width: 520px) {
+  .container { padding: 0 18px; }
+  .section { padding: 56px 0; }
+  .hero { padding: 128px 0 80px; }
+  .hero h1 { font-size: 2.3rem; }
+  .hero-sub { font-size: 16.5px; }
+  .hero-ctas .btn { flex: 1; }
+  .skills-grid { grid-template-columns: 1fr; }
+  .cs-steps { grid-template-columns: 1fr; }
+  .cs-features { grid-template-columns: 1fr; }
+  .p01-grid { grid-template-columns: 1fr; }
+  .p01-hero { grid-template-columns: 1fr; }
+  .p01-hero .lap { display: none; }
+  .p03-row2 { grid-template-columns: 1fr; }
+  .card-code { display: none; }
+  .card-main-body { grid-template-columns: 38px 1fr; }
+  .vc-stats { grid-template-columns: 1fr; }
+  .vc-panel { padding: 14px; }
+  .vc-bars { height: 84px; }
+  .footer-inner { justify-content: center; text-align: center; }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+  .reveal { opacity: 1; transform: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="bg-decor" aria-hidden="true"></div>
+
+<!-- ================= NAV ================= -->
+<header class="nav" id="nav">
+  <div class="container nav-inner">
+    <a class="logo" href="#home" aria-label="Home">
+      <span class="logo-mark">GP</span>
+      <span class="logo-text">Galih <span>Pandawa Putra</span></span>
+    </a>
+    <nav class="nav-menu" id="navMenu" aria-label="Primary">
+      <ul class="nav-links">
+        <li><a href="#about" data-i18n="nav.about">Tentang</a></li>
+        <li><a href="#projects" data-i18n="nav.projects">Proyek</a></li>
+        <li><a href="#skills" data-i18n="nav.skills">Keahlian</a></li>
+        <li><a href="#experience" data-i18n="nav.experience">Pengalaman</a></li>
+        <li><a href="#contact" data-i18n="nav.contact">Kontak</a></li>
+      </ul>
+      <a href="#contact" class="btn btn-primary btn-sm nav-cta" data-i18n="nav.cta">Mari Bicara</a>
+    </nav>
+    <div class="nav-actions">
+      <div class="lang-switch" role="group" aria-label="Language">
+        <button type="button" class="lang-btn active" data-lang="id" aria-pressed="true">ID</button>
+        <button type="button" class="lang-btn" data-lang="en" aria-pressed="false">EN</button>
+      </div>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="navMenu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="home">
+
+  <!-- ================= HERO ================= -->
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="hero-copy">
+        <div class="reveal">
+          <span class="avail"><span class="avail-dot"></span><span data-i18n="hero.avail">Tersedia untuk peluang kerja</span></span>
+        </div>
+        <h1 class="reveal" style="--d:.06s" data-i18n="hero.title">Membangun Solusi Web Praktis untuk <span class="grad">Bisnis Nyata.</span></h1>
+        <p class="hero-sub reveal" style="--d:.12s" data-i18n="hero.sub">Full-Stack Web Developer yang fokus membangun aplikasi web modern, sistem bisnis, dan solusi bertenaga AI.</p>
+        <div class="hero-badges reveal" style="--d:.18s">
+          <span class="tech-chip">PHP</span>
+          <span class="tech-chip">Laravel</span>
+          <span class="tech-chip">JavaScript</span>
+          <span class="tech-chip">MySQL</span>
+          <span class="tech-chip" data-i18n="hero.badge.ai">Integrasi AI</span>
+        </div>
+        <div class="hero-ctas reveal" style="--d:.24s">
+          <a href="#projects" class="btn btn-primary"><span data-i18n="hero.cta1">Lihat Proyek Saya</span>
+            <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+          <a href="#contact" class="btn btn-ghost"><span data-i18n="hero.cta2">Hubungi Saya</span></a>
+        </div>
+      </div>
+
+      <div class="hero-visual reveal" style="--d:.2s" aria-hidden="true">
+        <div class="hv-glow"></div>
+
+        <!-- main dashboard panel -->
+        <div class="visual-card card-main">
+          <div class="vc-head">
+            <span class="browser-dots"><i></i><i></i><i></i></span>
+            <span class="vc-title">price-list / overview</span>
+          </div>
+          <div class="card-main-body">
+            <div class="vc-sidebar">
+              <span class="vs-logo"></span>
+              <span class="vs-item"></span>
+              <span class="vs-item"></span>
+              <span class="vs-item active"></span>
+              <span class="vs-item"></span>
+            </div>
+            <div class="vc-panel">
+              <div class="vc-stats">
+                <div class="vs-card"><span class="vs-label">Products</span><span class="vs-num">1,240</span><span class="vs-trend up">▲ 12%</span></div>
+                <div class="vs-card"><span class="vs-label">AI Queries</span><span class="vs-num">8.4K</span><span class="vs-trend up">▲ 31%</span></div>
+                <div class="vs-card"><span class="vs-label">Uptime</span><span class="vs-num">99.9%</span><span class="vs-trend">stable</span></div>
+              </div>
+              <div class="vc-chart">
+                <div class="vc-chart-head"><span>AI queries / month</span><span class="vc-chart-tag">12 mo</span></div>
+                <div class="vc-bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+                <div class="vc-x"><span>Jan</span><span>Mar</span><span>May</span><span>Jul</span><span>Sep</span><span>Nov</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- code snippet card -->
+        <div class="visual-card card-code">
+          <div class="code-head">
+            <span class="code-file">PriceListController.php</span>
+            <span class="tag">● running</span>
+          </div>
+          <pre class="code-body"><code><span class="c-com">// AI-assisted product lookup</span>
+            <span class="c-kw">public function</span> <span class="c-fn">search</span>(<span class="c-var">$request</span>)
+            {
+                <span class="c-var">$query</span> = <span class="c-fn">normalize</span>(<span class="c-var">$request</span>-&gt;<span class="c-fn">input</span>(<span class="c-str">'q'</span>));
+                <span class="c-kw">return</span> <span class="c-var">$this</span>-&gt;<span class="c-fn">ai</span>-&gt;<span class="c-fn">answer</span>(<span class="c-var">$query</span>);
+            }</code></pre>
+        </div>
+
+        <!-- database status card -->
+        <div class="visual-card card-db">
+          <span class="db-icon"><i></i><i></i><i></i></span>
+          <span><span class="db-title">MySQL 8.0</span><span class="db-sub">Connected · price_list DB</span></span>
+          <span class="db-status"></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FEATURED PROJECTS ================= -->
+  <section class="section projects-section" id="projects">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="section-label"><span class="idx">01</span> <span data-i18n="sec.projects.label">Proyek Unggulan</span></span>
+        <h2 data-i18n="sec.projects.title">Produk nyata, dibangun end-to-end</h2>
+        <p class="section-sub" data-i18n="sec.projects.sub">Pilihan aplikasi bisnis dan website yang saya rancang, bangun, dan rilis.</p>
+      </div>
+
+      <!-- Project 01 -->
+      <article class="project reveal">
+        <div class="project-info">
+          <div class="project-meta">
+            <span class="project-num">01</span>
+            <span class="tag" data-i18n="p1.tag">Website Perusahaan</span>
+          </div>
+          <h3 data-i18n="p1.title">Matahari Laptop — Website Profil Perusahaan &amp; Produk</h3>
+          <p data-i18n="p1.desc">Website profesional perusahaan dan produk yang dirancang untuk menampilkan profil perusahaan, produk, layanan, dan informasi bisnis.</p>
+          <div class="project-tech">
+            <span class="tech-chip">PHP</span>
+            <span class="tech-chip">Laravel</span>
+            <span class="tech-chip">JavaScript</span>
+            <span class="tech-chip">MySQL</span>
+          </div>
+          <a href="#case-study" class="project-link"><span data-i18n="common.cs">Lihat Studi Kasus</span> <span class="arr">→</span></a>
+        </div>
+        <div class="project-visual" aria-hidden="true">
+          <img class="project-shot" src="images/mataharilaptop.png" alt="Screenshot website Matahari Laptop" loading="lazy" onload="this.parentNode.classList.add('has-shot')" onerror="this.style.display='none'">
+          <div class="browser">
+            <div class="browser-bar">
+              <span class="browser-dots"><i></i><i></i><i></i></span>
+              <span class="browser-url"><span class="lock"></span>mataharilaptop.com</span>
+            </div>
+            <div class="browser-body p01">
+              <div class="p01-nav">
+                <span class="p01-brand">◆ Matahari <em>Laptop</em></span>
+                <div class="p01-menu"><i></i><i></i><i></i></div>
+                <span class="p01-cta">Contact</span>
+              </div>
+              <div class="p01-hero">
+                <div class="p01-copy">
+                  <span class="p01-kicker">Official Store</span>
+                  <span class="p01-title"></span>
+                  <span class="p01-sub"></span>
+                  <div class="p01-btns"><i class="solid"></i><i class="outline"></i></div>
+                </div>
+                <div class="lap">
+                  <div class="lap-screen"><i></i><i></i><i></i></div>
+                  <div class="lap-base"></div>
+                </div>
+              </div>
+              <div class="p01-grid">
+                <div class="p01-prod">
+                  <span class="p01-img"><span class="lap"><span class="lap-screen"><i></i><i></i></span><span class="lap-base"></span></span></span>
+                  <span class="p01-name"></span>
+                  <span class="p01-price">Rp 9.499.000</span>
+                  <span class="p01-buy">Add to cart</span>
+                </div>
+                <div class="p01-prod">
+                  <span class="p01-img"><span class="lap"><span class="lap-screen"><i></i><i></i></span><span class="lap-base"></span></span></span>
+                  <span class="p01-name"></span>
+                  <span class="p01-price">Rp 12.999.000</span>
+                  <span class="p01-buy">Add to cart</span>
+                </div>
+                <div class="p01-prod">
+                  <span class="p01-img"><span class="lap"><span class="lap-screen"><i></i><i></i></span><span class="lap-base"></span></span></span>
+                  <span class="p01-name"></span>
+                  <span class="p01-price">Rp 7.799.000</span>
+                  <span class="p01-buy">Add to cart</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Project 02 -->
+      <article class="project reveal">
+        <div class="project-info">
+          <div class="project-meta">
+            <span class="project-num">02</span>
+            <span class="tag featured">
+              <svg class="star" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l1.9 6.2L20 10l-6.1 1.8L12 18l-1.9-6.2L4 10l6.1-1.8z"/></svg>
+              <span data-i18n="p2.tag">Unggulan</span>
+            </span>
+          </div>
+          <h3 data-i18n="p2.title">Daftar Harga Produk Berbasis AI</h3>
+          <p data-i18n="p2.desc">Aplikasi daftar harga produk internal yang dirancang untuk mempermudah pencarian produk, pengecekan spesifikasi, perbandingan, dan interaksi berbantuan AI.</p>
+          <div class="project-tech">
+            <span class="tech-chip">PHP</span>
+            <span class="tech-chip">Laravel</span>
+            <span class="tech-chip">MySQL</span>
+            <span class="tech-chip">JavaScript</span>
+            <span class="tech-chip" data-i18n="chip.aiInt">Integrasi AI</span>
+          </div>
+          <a href="#case-study" class="project-link"><span data-i18n="common.cs">Lihat Studi Kasus</span> <span class="arr">→</span></a>
+        </div>
+        <div class="project-visual" aria-hidden="true">
+          <img class="project-shot" src="images/pl.png" alt="Screenshot Daftar Harga Produk berbasis AI" loading="lazy" onload="this.parentNode.classList.add('has-shot')" onerror="this.style.display='none'">
+          <div class="browser">
+            <div class="browser-bar">
+              <span class="browser-dots"><i></i><i></i><i></i></span>
+              <span class="browser-url"><span class="lock"></span>pl.mataharilaptop.com</span>
+            </div>
+            <div class="browser-body p02">
+              <div class="p02-top">
+                <span class="p02-search"><span class="ico-search"></span><span class="p02-search-ph">Search products, specs, or ask the AI…</span></span>
+                <span class="p02-avatar"></span>
+              </div>
+              <div class="p02-filters">
+                <span class="f-chip active">All</span>
+                <span class="f-chip">Brand ▾</span>
+                <span class="f-chip">Processor ▾</span>
+                <span class="f-chip">RAM ▾</span>
+                <span class="f-chip">Storage ▾</span>
+                <span class="f-chip">Price ▾</span>
+              </div>
+              <div class="p02-body">
+                <div class="p02-list">
+                  <div class="p02-row head"><span>Product</span><span>Specs</span><span>Price</span></div>
+                  <div class="p02-row">
+                    <span class="p02-p"><span class="p02-pname">IdeaPad Pro 5</span><span class="p02-pbrand">Lenovo</span></span>
+                    <span class="p02-specs"><i class="spec-tag">Ryzen 7</i><i class="spec-tag">16GB</i><i class="spec-tag">512GB</i></span>
+                    <span class="p02-price">Rp 14.499.000</span>
+                  </div>
+                  <div class="p02-row">
+                    <span class="p02-p"><span class="p02-pname">TUF Gaming F15</span><span class="p02-pbrand">ASUS</span></span>
+                    <span class="p02-specs"><i class="spec-tag">i7-12700H</i><i class="spec-tag">16GB</i><i class="spec-tag">1TB</i></span>
+                    <span class="p02-price">Rp 16.999.000</span>
+                  </div>
+                  <div class="p02-row">
+                    <span class="p02-p"><span class="p02-pname">Aspire 5 A515</span><span class="p02-pbrand">Acer</span></span>
+                    <span class="p02-specs"><i class="spec-tag">i5-1235U</i><i class="spec-tag">8GB</i><i class="spec-tag">512GB</i></span>
+                    <span class="p02-price">Rp 8.499.000</span>
+                  </div>
+                  <div class="p02-compare"><span class="check"></span>Compare selected (2)</div>
+                </div>
+                <div class="p02-ai">
+                  <div class="p02-ai-head"><span class="ai-spark">✦</span> AI Assistant <span class="ai-status">online</span></div>
+                  <div class="ai-bubble user">Cheapest laptop with 16GB RAM and RTX?</div>
+                  <div class="ai-bubble bot"><span class="ai-dot"></span>IdeaPad Pro 5 — 16GB / RTX 4060, <b>Rp 14.499.000</b>. Also check TUF F15 at Rp 16.999.000.</div>
+                  <div class="ai-chips"><span>Compare top 2</span><span>16GB under Rp 15jt</span></div>
+                  <div class="ai-input">Ask about any product…<span class="ai-send">➤</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Project 03 -->
+      <article class="project reveal">
+        <div class="project-info">
+          <div class="project-meta">
+            <span class="project-num">03</span>
+            <span class="tag" data-i18n="p3.tag">Sistem Internal</span>
+          </div>
+          <h3 data-i18n="p3.title">Sistem Cetak Label Spesifikasi Laptop</h3>
+          <p data-i18n="p3.desc">Aplikasi bisnis internal untuk membuat label spesifikasi laptop standar dan menyederhanakan alur pelabelan serta pencetakan produk.</p>
+          <div class="project-tech">
+            <span class="tech-chip">PHP</span>
+            <span class="tech-chip">Laravel</span>
+            <span class="tech-chip">MySQL</span>
+            <span class="tech-chip">JavaScript</span>
+            <span class="tech-chip">Printing</span>
+          </div>
+          <a href="#case-study" class="project-link"><span data-i18n="common.cs">Lihat Studi Kasus</span> <span class="arr">→</span></a>
+        </div>
+        <div class="project-visual" aria-hidden="true">
+          <img class="project-shot" src="images/label.png" alt="Screenshot Sistem Cetak Label Spesifikasi Laptop" loading="lazy" onload="this.parentNode.classList.add('has-shot')" onerror="this.style.display='none'">
+          <div class="p03-wrap">
+            <div class="browser">
+              <div class="browser-bar">
+                <span class="browser-dots"><i></i><i></i><i></i></span>
+                <span class="browser-url"><span class="lock"></span>label.mataharilaptop.com</span>
+              </div>
+              <div class="browser-body p03">
+                <div class="p03-form">
+                  <span class="p03-fhead">Product Information</span>
+                  <label class="field"><span>Product Name</span><input value="Aspire 5 A515-57" readonly></label>
+                  <label class="field"><span>Brand</span><input value="Acer" readonly></label>
+                  <div class="p03-row2">
+                    <label class="field"><span>CPU</span><input value="Core i5-1235U" readonly></label>
+                    <label class="field"><span>RAM</span><input value="8GB DDR4" readonly></label>
+                  </div>
+                  <div class="p03-row2">
+                    <label class="field"><span>Storage</span><input value="512GB SSD" readonly></label>
+                    <label class="field"><span>Display</span><input value="15.6″ FHD" readonly></label>
+                  </div>
+                </div>
+                <div class="p03-right">
+                  <div class="p03-layouts">
+                    <span class="lay active">Layout A</span><span class="lay">Layout B</span><span class="lay">Layout C</span>
+                  </div>
+                  <div class="p03-preview">
+                    <div class="label">
+                      <div class="label-head"><span class="label-brand">MATAHARI LAPTOP</span><span class="label-code">ML-2601</span></div>
+                      <div class="label-specs">
+                        <div class="ls"><span>Model</span><b>Aspire 5 A515-57</b></div>
+                        <div class="ls"><span>CPU</span><b>Core i5-1235U</b></div>
+                        <div class="ls"><span>RAM</span><b>8GB DDR4</b></div>
+                        <div class="ls"><span>Storage</span><b>512GB SSD</b></div>
+                        <div class="ls"><span>Display</span><b>15.6″ FHD</b></div>
+                      </div>
+                      <span class="barcode"></span>
+                    </div>
+                  </div>
+                  <div class="p03-actions">
+                    <span class="btn-print">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V3h12v6"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+                      Print Label
+                    </span>
+                    <span class="btn-save">Save</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- printed label sticker -->
+            <div class="printed">
+              <span class="printed-tag">PRINTED</span>
+              <span class="printed-brand">MATAHARI LAPTOP</span>
+              <span class="printed-model">Aspire 5 A515-57</span>
+              <span class="printed-line">CPU: Core i5-1235U</span>
+              <span class="printed-line">RAM: 8GB DDR4 · SSD 512GB</span>
+              <span class="printed-line">15.6″ FHD · Win 11 Home</span>
+              <span class="barcode"></span>
+            </div>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ================= CASE STUDY ================= -->
+  <section class="section cs-section" id="case-study">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="section-label"><span class="idx">02</span> <span data-i18n="sec.cs.label">Studi Kasus</span></span>
+        <h2 data-i18n="cs.title">Daftar Harga Produk Berbasis AI</h2>
+        <p class="section-sub" data-i18n="cs.sub">Melihat bagaimana daftar harga internal berkembang menjadi katalog produk yang cepat dan berbantuan AI — dari masalah hingga hasil akhir.</p>
+      </div>
+
+      <div class="cs-shot reveal" aria-hidden="true">
+        <img class="project-shot" src="images/pl.png" alt="Screenshot Daftar Harga Produk berbasis AI" loading="lazy" onload="this.parentNode.classList.add('has-shot')" onerror="this.style.display='none'">
+        <div class="browser">
+          <div class="browser-bar">
+            <span class="browser-dots"><i></i><i></i><i></i></span>
+            <span class="browser-url"><span class="lock"></span>pl.mataharilaptop.com</span>
+          </div>
+          <div class="browser-body p02">
+            <div class="p02-top">
+              <span class="p02-search"><span class="ico-search"></span><span class="p02-search-ph">Search products, specs, or ask the AI…</span></span>
+              <span class="p02-avatar"></span>
+            </div>
+            <div class="p02-filters">
+              <span class="f-chip active">All</span>
+              <span class="f-chip">Brand ▾</span>
+              <span class="f-chip">Processor ▾</span>
+              <span class="f-chip">RAM ▾</span>
+              <span class="f-chip">Storage ▾</span>
+              <span class="f-chip">Price ▾</span>
+            </div>
+            <div class="p02-body">
+              <div class="p02-list">
+                <div class="p02-row head"><span>Product</span><span>Specs</span><span>Price</span></div>
+                <div class="p02-row">
+                  <span class="p02-p"><span class="p02-pname">IdeaPad Pro 5</span><span class="p02-pbrand">Lenovo</span></span>
+                  <span class="p02-specs"><i class="spec-tag">Ryzen 7</i><i class="spec-tag">16GB</i><i class="spec-tag">512GB</i></span>
+                  <span class="p02-price">Rp 14.499.000</span>
+                </div>
+                <div class="p02-row">
+                  <span class="p02-p"><span class="p02-pname">TUF Gaming F15</span><span class="p02-pbrand">ASUS</span></span>
+                  <span class="p02-specs"><i class="spec-tag">i7-12700H</i><i class="spec-tag">16GB</i><i class="spec-tag">1TB</i></span>
+                  <span class="p02-price">Rp 16.999.000</span>
+                </div>
+                <div class="p02-row">
+                  <span class="p02-p"><span class="p02-pname">Aspire 5 A515</span><span class="p02-pbrand">Acer</span></span>
+                  <span class="p02-specs"><i class="spec-tag">i5-1235U</i><i class="spec-tag">8GB</i><i class="spec-tag">512GB</i></span>
+                  <span class="p02-price">Rp 8.499.000</span>
+                </div>
+                <div class="p02-row">
+                  <span class="p02-p"><span class="p02-pname">MacBook Air M3</span><span class="p02-pbrand">Apple</span></span>
+                  <span class="p02-specs"><i class="spec-tag">M3</i><i class="spec-tag">16GB</i><i class="spec-tag">512GB</i></span>
+                  <span class="p02-price">Rp 21.999.000</span>
+                </div>
+                <div class="p02-compare"><span class="check"></span>Compare selected (2)</div>
+              </div>
+              <div class="p02-ai">
+                <div class="p02-ai-head"><span class="ai-spark">✦</span> AI Assistant <span class="ai-status">online</span></div>
+                <div class="ai-bubble user">Which 16GB laptops fit a Rp 15jt budget?</div>
+                <div class="ai-bubble bot"><span class="ai-dot"></span>3 matches: IdeaPad Pro 5 (14.499.000), Aspire 5 A515 (8.499.000), and…</div>
+                <div class="ai-chips"><span>Compare top 2</span><span>Cheapest 1TB</span><span>Show all specs</span></div>
+                <div class="ai-input">Ask about any product…<span class="ai-send">➤</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cs-overview reveal">
+        <div>
+          <h3 data-i18n="cs.overview.h">Ikhtisar Proyek</h3>
+          <p data-i18n="cs.overview.p">Daftar Harga Produk Berbasis AI menggantikan alur kerja penetapan harga yang tersebar dan sulit dicari. Aplikasi ini mengubah ribuan spesifikasi produk menjadi satu katalog yang cepat, dapat difilter, dan berbantuan AI — yang benar-benar dipakai tim setiap hari.</p>
+        </div>
+        <div>
+          <h3 data-i18n="cs.approach.h">Pendekatan</h3>
+          <p data-i18n="cs.approach.p">Dibangun dengan Laravel dan MySQL dengan antarmuka yang bersih dan responsif. Asisten AI menjadi bagian alami dari aplikasi — menjawab pertanyaan, membandingkan produk, dan memandu tim menjelajahi katalog tanpa meninggalkan alur kerja.</p>
+        </div>
+      </div>
+
+      <div class="cs-cards">
+        <div class="cs-card reveal" style="--d:.05s">
+          <span class="cs-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></span>
+          <h4 data-i18n="cs.problem.h">Masalah</h4>
+          <p data-i18n="cs.problem.p">Data produk tersebar di spreadsheet dan PDF. Mencari spesifikasi memakan waktu lama, perbandingan rawan kesalahan, dan menjawab pertanyaan sederhana berarti menggali dokumen.</p>
+        </div>
+        <div class="cs-card reveal" style="--d:.1s">
+          <span class="cs-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span>
+          <h4 data-i18n="cs.solution.h">Solusi</h4>
+          <p data-i18n="cs.solution.p">Aplikasi internal berbasis Laravel dengan katalog produk terpadu, filter lanjutan, perbandingan berdampingan, dan asisten AI yang terhubung ke data produk — jawaban dan perbandingan dalam hitungan detik.</p>
+        </div>
+        <div class="cs-card reveal" style="--d:.15s">
+          <span class="cs-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
+          <h4 data-i18n="cs.role.h">Peran Saya</h4>
+          <p data-i18n="cs.role.p">Full-Stack Developer — perencanaan, desain basis data, API backend, antarmuka frontend, dan integrasi AI, dari konsep hingga peluncuran dan pemeliharaan.</p>
+        </div>
+      </div>
+
+      <div class="cs-block reveal">
+        <div class="cs-block-title" data-i18n="cs.features.h">Fitur Utama</div>
+        <div class="cs-features">
+          <div class="cs-feature" data-i18n="cs.feat1"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Pencarian produk instan di nama, merek, dan spesifikasi</div>
+          <div class="cs-feature" data-i18n="cs.feat2"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Filter lanjutan: merek, prosesor, RAM, penyimpanan, dan harga</div>
+          <div class="cs-feature" data-i18n="cs.feat3"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Perbandingan produk berdampingan</div>
+          <div class="cs-feature" data-i18n="cs.feat4"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Pencarian, jawaban, dan rekomendasi berbantuan AI</div>
+          <div class="cs-feature" data-i18n="cs.feat5"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Pustaka spesifikasi terpusat — satu sumber kebenaran</div>
+          <div class="cs-feature" data-i18n="cs.feat6"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Antarmuka bersih dan responsif untuk penggunaan internal sehari-hari</div>
+        </div>
+      </div>
+
+      <div class="cs-block reveal">
+        <div class="cs-block-title" data-i18n="cs.tech.h">Teknologi</div>
+        <div class="cs-tech">
+          <span class="tech-chip">PHP</span>
+          <span class="tech-chip">Laravel</span>
+          <span class="tech-chip">MySQL</span>
+          <span class="tech-chip">JavaScript</span>
+          <span class="tech-chip">REST API</span>
+          <span class="tech-chip" data-i18n="chip.aiInt">Integrasi AI</span>
+          <span class="tech-chip" data-i18n="chip.prompt">Rekayasa Prompt</span>
+        </div>
+      </div>
+
+      <div class="cs-block reveal">
+        <div class="cs-block-title" data-i18n="cs.process.h">Proses Pengembangan</div>
+        <div class="cs-steps">
+          <div class="cs-step">
+            <div class="cs-step-num">01</div>
+            <h5 data-i18n="cs.step1.h">Temukan &amp; Tentukan</h5>
+            <p data-i18n="cs.step1.p">Petakan alur kerja harian, titik masalah, dan lokasi data sebenarnya.</p>
+          </div>
+          <div class="cs-step">
+            <div class="cs-step-num">02</div>
+            <h5 data-i18n="cs.step2.h">Data &amp; Skema</h5>
+            <p data-i18n="cs.step2.p">Normalisasi produk dan spesifikasi ke dalam model MySQL yang rapi.</p>
+          </div>
+          <div class="cs-step">
+            <div class="cs-step-num">03</div>
+            <h5 data-i18n="cs.step3.h">Bangun</h5>
+            <p data-i18n="cs.step3.p">API Laravel dan antarmuka frontend, diiterasi bersama tim.</p>
+          </div>
+          <div class="cs-step">
+            <div class="cs-step-num">04</div>
+            <h5 data-i18n="cs.step4.h">Integrasi AI</h5>
+            <p data-i18n="cs.step4.p">Hubungkan asisten ke katalog dengan prompt yang cermat.</p>
+          </div>
+          <div class="cs-step">
+            <div class="cs-step-num">05</div>
+            <h5 data-i18n="cs.step5.h">Uji &amp; Rilis</h5>
+            <p data-i18n="cs.step5.p">Luncurkan, kumpulkan masukan, dan rawat sistem dari waktu ke waktu.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="cs-result reveal">
+        <div class="cs-result-card">
+          <div class="r-title" data-i18n="cs.result1.t">DETIK, BUKAN MENIT</div>
+          <p data-i18n="cs.result1.p">Pengecekan spesifikasi berubah dari menggali file menjadi pencarian dan jawaban instan.</p>
+        </div>
+        <div class="cs-result-card">
+          <div class="r-title" data-i18n="cs.result2.t">SATU SUMBER KEBENARAN</div>
+          <p data-i18n="cs.result2.p">Setiap spesifikasi produk berada di satu katalog terpelihara yang dapat dipercaya seluruh tim.</p>
+        </div>
+        <div class="cs-result-card">
+          <div class="r-title" data-i18n="cs.result3.t">AI YANG BEKERJA</div>
+          <p data-i18n="cs.result3.p">Asisten menjawab secara alami di dalam alur kerja — tanpa chatbot terpisah, tanpa hambatan.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= SKILLS ================= -->
+  <section class="section skills-section" id="skills">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="section-label"><span class="idx">03</span> <span data-i18n="sec.skills.label">Keahlian</span></span>
+        <h2 data-i18n="sec.skills.title">Teknologi yang saya pakai setiap hari</h2>
+        <p class="section-sub" data-i18n="sec.skills.sub">Perangkat praktis yang fokus membangun dan merilis perangkat lunak bisnis nyata.</p>
+      </div>
+
+      <div class="skills-grid">
+        <div class="skill-card reveal" style="--d:.05s">
+          <span class="skill-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg></span>
+          <h3>Frontend</h3>
+          <div class="skill-chips">
+            <span class="chip">HTML</span>
+            <span class="chip">CSS</span>
+            <span class="chip">JavaScript</span>
+            <span class="chip" data-i18n="chip.responsive">UI Responsif</span>
+          </div>
+        </div>
+        <div class="skill-card reveal" style="--d:.1s">
+          <span class="skill-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg></span>
+          <h3>Backend</h3>
+          <div class="skill-chips">
+            <span class="chip">PHP</span>
+            <span class="chip">Laravel</span>
+            <span class="chip">REST API</span>
+            <span class="chip">MySQL</span>
+          </div>
+        </div>
+        <div class="skill-card reveal" style="--d:.15s">
+          <span class="skill-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l1.9 6.2L20 10l-6.1 1.8L12 18l-1.9-6.2L4 10l6.1-1.8z"/></svg></span>
+          <h3 data-i18n="skills.ai">AI &amp; Integrasi</h3>
+          <div class="skill-chips">
+            <span class="chip" data-i18n="chip.aiApi">API AI</span>
+            <span class="chip" data-i18n="chip.aiInt">Integrasi AI</span>
+            <span class="chip" data-i18n="chip.prompt">Rekayasa Prompt</span>
+            <span class="chip" data-i18n="chip.data">Integrasi Data</span>
+          </div>
+        </div>
+        <div class="skill-card reveal" style="--d:.2s">
+          <span class="skill-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></span>
+          <h3 data-i18n="skills.tools">Alat</h3>
+          <div class="skill-chips">
+            <span class="chip">Git</span>
+            <span class="chip">GitHub</span>
+            <span class="chip">VS Code</span>
+            <span class="chip">Figma</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= ABOUT ================= -->
+  <section class="section about-section" id="about">
+    <div class="container about-grid">
+      <div class="about-copy reveal">
+        <h2 data-i18n="about.h2">Developer yang membangun solusi, bukan sekadar website.</h2>
+        <p data-i18n="about.p">Saya menikmati mengubah masalah bisnis nyata menjadi solusi perangkat lunak yang praktis — dari website perusahaan dan sistem manajemen internal hingga aplikasi bertenaga AI dan otomasi alur kerja.</p>
+      </div>
+      <div class="mini-timeline reveal" style="--d:.1s">
+        <div class="mt-item">
+          <h4 data-i18n="about.t1.h">Pengembangan Web</h4>
+          <p data-i18n="about.t1.p">Website profil perusahaan, e-commerce, dan pemasaran yang menghasilkan.</p>
+        </div>
+        <div class="mt-item">
+          <h4 data-i18n="about.t2.h">Aplikasi Bisnis</h4>
+          <p data-i18n="about.t2.p">Sistem internal yang menjalankan operasi sehari-hari.</p>
+        </div>
+        <div class="mt-item">
+          <h4 data-i18n="about.t3.h">Integrasi AI</h4>
+          <p data-i18n="about.t3.p">Fitur AI praktis yang tertanam dalam alur kerja nyata.</p>
+        </div>
+        <div class="mt-item">
+          <h4 data-i18n="about.t4.h">Otomasi</h4>
+          <p data-i18n="about.t4.p">Menyederhanakan proses bisnis yang berulang.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= EXPERIENCE ================= -->
+  <section class="section exp-section" id="experience">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="section-label"><span class="idx">04</span> <span data-i18n="sec.exp.label">Pengalaman</span></span>
+        <h2 data-i18n="sec.exp.title">Tempat saya membangun</h2>
+      </div>
+
+      <div class="exp-timeline">
+        <div class="exp-item reveal">
+          <div class="exp-year"><span class="dot"></span><span data-i18n="exp.year">2026 — Sekarang</span></div>
+          <div class="exp-card">
+            <div class="exp-card-head">
+              <h3 data-i18n="exp.role">Pengembang Web</h3>
+              <span class="tag">Full-Stack</span>
+            </div>
+            <ul>
+              <li data-i18n="exp.b1">Mengembangkan aplikasi web untuk bisnis</li>
+              <li data-i18n="exp.b2">Membangun sistem bisnis internal</li>
+              <li data-i18n="exp.b3">Mengintegrasikan AI ke dalam alur kerja bisnis</li>
+              <li data-i18n="exp.b4">Desain dan integrasi basis data</li>
+              <li data-i18n="exp.b5">Merawat dan meningkatkan aplikasi yang ada</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CONTACT ================= -->
+  <section class="section contact-section" id="contact">
+    <div class="container">
+      <div class="contact-inner reveal">
+        <span class="section-label" style="justify-content:center"><span class="idx">05</span> <span data-i18n="sec.contact.label">Kontak</span></span>
+        <h2 data-i18n="contact.h2">Punya proyek atau peluang dalam pikiran?</h2>
+        <p class="contact-sub" data-i18n="contact.sub">Mari kita bangun sesuatu yang berguna.</p>
+        <div class="contact-btns">
+          <a href="mailto:hello@example.com" class="btn btn-primary">
+            <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <span data-i18n="contact.email">Email Saya</span>
+          </a>
+          <a href="https://github.com/" target="_blank" rel="noopener" class="btn btn-ghost">
+            <svg class="ic" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+            <span data-i18n="contact.github">GitHub</span>
+          </a>
+          <a href="https://linkedin.com/" target="_blank" rel="noopener" class="btn btn-ghost">
+            <svg class="ic" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"/></svg>
+            <span data-i18n="contact.linkedin">LinkedIn</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer class="footer">
+  <div class="container footer-inner">
+    <div class="footer-meta"><strong>Galih Pandawa Putra</strong> · © 2026</div>
+    <div class="footer-note" data-i18n="footer.note">Dibuat dengan <em>passion</em> dan kode.</div>
+    <a href="#home" class="to-top">
+      <span data-i18n="footer.top">Kembali ke atas</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+    </a>
+  </div>
+</footer>
+
+<script>
+(function () {
+  /* ---- i18n (ID / EN) ---- */
+  var i18n = {
+    id: {
+      "nav.about": "Tentang",
+      "nav.projects": "Proyek",
+      "nav.skills": "Keahlian",
+      "nav.experience": "Pengalaman",
+      "nav.contact": "Kontak",
+      "nav.cta": "Mari Bicara",
+      "hero.avail": "Tersedia untuk peluang kerja",
+      "hero.title": "Membangun Solusi Web Praktis untuk <span class=\"grad\">Bisnis Nyata.</span>",
+      "hero.sub": "Full-Stack Web Developer yang fokus membangun aplikasi web modern, sistem bisnis, dan solusi bertenaga AI.",
+      "hero.badge.ai": "Integrasi AI",
+      "hero.cta1": "Lihat Proyek Saya",
+      "hero.cta2": "Hubungi Saya",
+      "sec.projects.label": "Proyek Unggulan",
+      "sec.projects.title": "Produk nyata, dibangun end-to-end",
+      "sec.projects.sub": "Pilihan aplikasi bisnis dan website yang saya rancang, bangun, dan rilis.",
+      "common.cs": "Lihat Studi Kasus",
+      "p1.tag": "Website Perusahaan",
+      "p1.title": "Matahari Laptop — Website Profil Perusahaan &amp; Produk",
+      "p1.desc": "Website profesional perusahaan dan produk yang dirancang untuk menampilkan profil perusahaan, produk, layanan, dan informasi bisnis.",
+      "p2.tag": "Unggulan",
+      "p2.title": "Daftar Harga Produk Berbasis AI",
+      "p2.desc": "Aplikasi daftar harga produk internal yang dirancang untuk mempermudah pencarian produk, pengecekan spesifikasi, perbandingan, dan interaksi berbantuan AI.",
+      "p3.tag": "Sistem Internal",
+      "p3.title": "Sistem Cetak Label Spesifikasi Laptop",
+      "p3.desc": "Aplikasi bisnis internal untuk membuat label spesifikasi laptop standar dan menyederhanakan alur pelabelan serta pencetakan produk.",
+      "sec.cs.label": "Studi Kasus",
+      "cs.title": "Daftar Harga Produk Berbasis AI",
+      "cs.sub": "Melihat bagaimana daftar harga internal berkembang menjadi katalog produk yang cepat dan berbantuan AI — dari masalah hingga hasil akhir.",
+      "cs.overview.h": "Ikhtisar Proyek",
+      "cs.overview.p": "Daftar Harga Produk Berbasis AI menggantikan alur kerja penetapan harga yang tersebar dan sulit dicari. Aplikasi ini mengubah ribuan spesifikasi produk menjadi satu katalog yang cepat, dapat difilter, dan berbantuan AI — yang benar-benar dipakai tim setiap hari.",
+      "cs.approach.h": "Pendekatan",
+      "cs.approach.p": "Dibangun dengan Laravel dan MySQL dengan antarmuka yang bersih dan responsif. Asisten AI menjadi bagian alami dari aplikasi — menjawab pertanyaan, membandingkan produk, dan memandu tim menjelajahi katalog tanpa meninggalkan alur kerja.",
+      "cs.problem.h": "Masalah",
+      "cs.problem.p": "Data produk tersebar di spreadsheet dan PDF. Mencari spesifikasi memakan waktu lama, perbandingan rawan kesalahan, dan menjawab pertanyaan sederhana berarti menggali dokumen.",
+      "cs.solution.h": "Solusi",
+      "cs.solution.p": "Aplikasi internal berbasis Laravel dengan katalog produk terpadu, filter lanjutan, perbandingan berdampingan, dan asisten AI yang terhubung ke data produk — jawaban dan perbandingan dalam hitungan detik.",
+      "cs.role.h": "Peran Saya",
+      "cs.role.p": "Full-Stack Developer — perencanaan, desain basis data, API backend, antarmuka frontend, dan integrasi AI, dari konsep hingga peluncuran dan pemeliharaan.",
+      "cs.features.h": "Fitur Utama",
+      "cs.feat1": "Pencarian produk instan di nama, merek, dan spesifikasi",
+      "cs.feat2": "Filter lanjutan: merek, prosesor, RAM, penyimpanan, dan harga",
+      "cs.feat3": "Perbandingan produk berdampingan",
+      "cs.feat4": "Pencarian, jawaban, dan rekomendasi berbantuan AI",
+      "cs.feat5": "Pustaka spesifikasi terpusat — satu sumber kebenaran",
+      "cs.feat6": "Antarmuka bersih dan responsif untuk penggunaan internal sehari-hari",
+      "cs.tech.h": "Teknologi",
+      "cs.process.h": "Proses Pengembangan",
+      "cs.step1.h": "Temukan &amp; Tentukan",
+      "cs.step1.p": "Petakan alur kerja harian, titik masalah, dan lokasi data sebenarnya.",
+      "cs.step2.h": "Data &amp; Skema",
+      "cs.step2.p": "Normalisasi produk dan spesifikasi ke dalam model MySQL yang rapi.",
+      "cs.step3.h": "Bangun",
+      "cs.step3.p": "API Laravel dan antarmuka frontend, diiterasi bersama tim.",
+      "cs.step4.h": "Integrasi AI",
+      "cs.step4.p": "Hubungkan asisten ke katalog dengan prompt yang cermat.",
+      "cs.step5.h": "Uji &amp; Rilis",
+      "cs.step5.p": "Luncurkan, kumpulkan masukan, dan rawat sistem dari waktu ke waktu.",
+      "cs.result1.t": "DETIK, BUKAN MENIT",
+      "cs.result1.p": "Pengecekan spesifikasi berubah dari menggali file menjadi pencarian dan jawaban instan.",
+      "cs.result2.t": "SATU SUMBER KEBENARAN",
+      "cs.result2.p": "Setiap spesifikasi produk berada di satu katalog terpelihara yang dapat dipercaya seluruh tim.",
+      "cs.result3.t": "AI YANG BEKERJA",
+      "cs.result3.p": "Asisten menjawab secara alami di dalam alur kerja — tanpa chatbot terpisah, tanpa hambatan.",
+      "sec.skills.label": "Keahlian",
+      "sec.skills.title": "Teknologi yang saya pakai setiap hari",
+      "sec.skills.sub": "Perangkat praktis yang fokus membangun dan merilis perangkat lunak bisnis nyata.",
+      "skills.ai": "AI &amp; Integrasi",
+      "skills.tools": "Alat",
+      "chip.responsive": "UI Responsif",
+      "chip.aiApi": "API AI",
+      "chip.aiInt": "Integrasi AI",
+      "chip.prompt": "Rekayasa Prompt",
+      "chip.data": "Integrasi Data",
+      "about.h2": "Developer yang membangun solusi, bukan sekadar website.",
+      "about.p": "Saya menikmati mengubah masalah bisnis nyata menjadi solusi perangkat lunak yang praktis — dari website perusahaan dan sistem manajemen internal hingga aplikasi bertenaga AI dan otomasi alur kerja.",
+      "about.t1.h": "Pengembangan Web",
+      "about.t1.p": "Website profil perusahaan, e-commerce, dan pemasaran yang menghasilkan.",
+      "about.t2.h": "Aplikasi Bisnis",
+      "about.t2.p": "Sistem internal yang menjalankan operasi sehari-hari.",
+      "about.t3.h": "Integrasi AI",
+      "about.t3.p": "Fitur AI praktis yang tertanam dalam alur kerja nyata.",
+      "about.t4.h": "Otomasi",
+      "about.t4.p": "Menyederhanakan proses bisnis yang berulang.",
+      "sec.exp.label": "Pengalaman",
+      "sec.exp.title": "Tempat saya membangun",
+      "exp.year": "2026 — Sekarang",
+      "exp.role": "Pengembang Web",
+      "exp.b1": "Mengembangkan aplikasi web untuk bisnis",
+      "exp.b2": "Membangun sistem bisnis internal",
+      "exp.b3": "Mengintegrasikan AI ke dalam alur kerja bisnis",
+      "exp.b4": "Desain dan integrasi basis data",
+      "exp.b5": "Merawat dan meningkatkan aplikasi yang ada",
+      "sec.contact.label": "Kontak",
+      "contact.h2": "Punya proyek atau peluang dalam pikiran?",
+      "contact.sub": "Mari kita bangun sesuatu yang berguna.",
+      "contact.email": "Email Saya",
+      "contact.github": "GitHub",
+      "contact.linkedin": "LinkedIn",
+      "footer.note": "Dibuat dengan <em>passion</em> dan kode.",
+      "footer.top": "Kembali ke atas"
+    },
+    en: {
+      "nav.about": "About",
+      "nav.projects": "Projects",
+      "nav.skills": "Skills",
+      "nav.experience": "Experience",
+      "nav.contact": "Contact",
+      "nav.cta": "Let's Talk",
+      "hero.avail": "Available for opportunities",
+      "hero.title": "Building Practical Web Solutions for <span class=\"grad\">Real Businesses.</span>",
+      "hero.sub": "Full-Stack Web Developer focused on building modern web applications, business systems, and AI-powered solutions.",
+      "hero.badge.ai": "AI Integration",
+      "hero.cta1": "View My Projects",
+      "hero.cta2": "Contact Me",
+      "sec.projects.label": "Featured Projects",
+      "sec.projects.title": "Real products, built end-to-end",
+      "sec.projects.sub": "A selection of the business applications and websites I've designed, built, and shipped.",
+      "common.cs": "View Case Study",
+      "p1.tag": "Company Website",
+      "p1.title": "Matahari Laptop — Company Profile &amp; Product Website",
+      "p1.desc": "A professional company and product website designed to present the company, products, services, and business information.",
+      "p2.tag": "Featured",
+      "p2.title": "AI-Powered Product Price List",
+      "p2.desc": "An internal product price list application designed to make product discovery, specification lookup, comparison, and AI-assisted interaction easier.",
+      "p3.tag": "Internal System",
+      "p3.title": "Laptop Specification Label Printing System",
+      "p3.desc": "An internal business application for generating standardized laptop specification labels and streamlining the product labeling and printing workflow.",
+      "sec.cs.label": "Case Study",
+      "cs.title": "AI-Powered Product Price List",
+      "cs.sub": "A look inside how an internal price list grew into a fast, AI-assisted product catalog — from problem to shipped result.",
+      "cs.overview.h": "Project overview",
+      "cs.overview.p": "The AI-Powered Product Price List replaces a scattered, hard-to-search pricing workflow. It turns thousands of product specifications into a single fast, filterable, AI-assisted catalog that the team actually uses every day.",
+      "cs.approach.h": "The approach",
+      "cs.approach.p": "Built on Laravel and MySQL with a clean, responsive interface. The AI assistant is a natural part of the application — answering questions, comparing products, and guiding the team through the catalog without leaving the workflow.",
+      "cs.problem.h": "Problem",
+      "cs.problem.p": "Product data lived across spreadsheets and PDFs. Finding a specification took too long, comparisons were error-prone, and answering a simple question meant digging through documents.",
+      "cs.solution.h": "Solution",
+      "cs.solution.p": "A Laravel-based internal app with a unified product catalog, advanced filtering, side-by-side comparison, and an AI assistant grounded in the product data — answers and comparisons in seconds.",
+      "cs.role.h": "My Role",
+      "cs.role.p": "Full-Stack Developer — planning, database design, backend APIs, frontend interface, and AI integration, from concept to deployment and ongoing maintenance.",
+      "cs.features.h": "Key Features",
+      "cs.feat1": "Instant product search across names, brands, and specs",
+      "cs.feat2": "Advanced filters: brand, processor, RAM, storage, and price",
+      "cs.feat3": "Side-by-side product comparison",
+      "cs.feat4": "AI-assisted lookup, answers, and recommendations",
+      "cs.feat5": "Central specification library — one source of truth",
+      "cs.feat6": "Clean, responsive interface for everyday internal use",
+      "cs.tech.h": "Technology",
+      "cs.process.h": "Development Process",
+      "cs.step1.h": "Discover &amp; Scope",
+      "cs.step1.p": "Map the daily workflow, pain points, and where data actually lives.",
+      "cs.step2.h": "Data &amp; Schema",
+      "cs.step2.p": "Normalize products and specifications into a clean MySQL model.",
+      "cs.step3.h": "Build",
+      "cs.step3.p": "Laravel APIs and the frontend interface, iterated with the team.",
+      "cs.step4.h": "AI Integration",
+      "cs.step4.p": "Connect the assistant to the catalog with careful prompting.",
+      "cs.step5.h": "Test &amp; Deploy",
+      "cs.step5.p": "Ship, gather feedback, and maintain the system over time.",
+      "cs.result1.t": "SECONDS, NOT MINUTES",
+      "cs.result1.p": "Specification lookup goes from digging through files to instant search and answers.",
+      "cs.result2.t": "ONE SOURCE OF TRUTH",
+      "cs.result2.p": "Every product spec lives in a single maintained catalog the whole team can trust.",
+      "cs.result3.t": "AI THAT WORKS",
+      "cs.result3.p": "The assistant answers naturally inside the workflow — no separate chatbot, no friction.",
+      "sec.skills.label": "Skills",
+      "sec.skills.title": "Technologies I work with daily",
+      "sec.skills.sub": "A practical toolkit focused on building and shipping real business software.",
+      "skills.ai": "AI &amp; Integration",
+      "skills.tools": "Tools",
+      "chip.responsive": "Responsive UI",
+      "chip.aiApi": "AI API",
+      "chip.aiInt": "AI Integration",
+      "chip.prompt": "Prompt Engineering",
+      "chip.data": "Data Integration",
+      "about.h2": "Developer who builds solutions, not just websites.",
+      "about.p": "I enjoy turning real business problems into practical software solutions — from company websites and internal management systems to AI-powered applications and workflow automation.",
+      "about.t1.h": "Web Development",
+      "about.t1.p": "Company profiles, e-commerce, and marketing sites that convert.",
+      "about.t2.h": "Business Applications",
+      "about.t2.p": "Internal systems that run day-to-day operations.",
+      "about.t3.h": "AI Integration",
+      "about.t3.p": "Practical AI features embedded in real workflows.",
+      "about.t4.h": "Automation",
+      "about.t4.p": "Streamlining repetitive business processes.",
+      "sec.exp.label": "Experience",
+      "sec.exp.title": "Where I've been building",
+      "exp.year": "2026 — Present",
+      "exp.role": "Web Developer",
+      "exp.b1": "Developing web applications for businesses",
+      "exp.b2": "Building internal business systems",
+      "exp.b3": "Integrating AI into business workflows",
+      "exp.b4": "Database design and integration",
+      "exp.b5": "Maintaining and improving existing applications",
+      "sec.contact.label": "Contact",
+      "contact.h2": "Have a project or opportunity in mind?",
+      "contact.sub": "Let's build something useful.",
+      "contact.email": "Email Me",
+      "contact.github": "GitHub",
+      "contact.linkedin": "LinkedIn",
+      "footer.note": "Built with <em>passion</em> and code.",
+      "footer.top": "Back to top"
+    }
+  };
+
+  var langBtns = document.querySelectorAll('.lang-btn');
+  var currentLang = 'id';
+  try { currentLang = localStorage.getItem('lang') || 'id'; } catch (e) {}
+
+  function applyLang(lang) {
+    currentLang = lang;
+    var t = i18n[lang] || i18n.id;
+    document.documentElement.lang = lang;
+    document.querySelectorAll('[data-i18n]').forEach(function (el) {
+      var key = el.getAttribute('data-i18n');
+      if (t[key] !== undefined) el.innerHTML = t[key];
+    });
+    langBtns.forEach(function (b) {
+      var on = b.getAttribute('data-lang') === lang;
+      b.classList.toggle('active', on);
+      b.setAttribute('aria-pressed', on);
+    });
+    try { localStorage.setItem('lang', lang); } catch (e) {}
+  }
+  langBtns.forEach(function (b) { b.addEventListener('click', function () { applyLang(b.getAttribute('data-lang')); }); });
+  applyLang(currentLang);
+
+  /* Nav: scrolled state + mobile menu */
+  var nav = document.getElementById('nav');
+  var toggle = document.getElementById('navToggle');
+  var menu = document.getElementById('navMenu');
+
+  function onScroll() { nav.classList.toggle('scrolled', window.scrollY > 10); }
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  toggle.addEventListener('click', function () {
+    var open = menu.classList.toggle('open');
+    toggle.classList.toggle('open', open);
+    toggle.setAttribute('aria-expanded', open);
+  });
+  menu.querySelectorAll('a').forEach(function (a) {
+    a.addEventListener('click', function () {
+      menu.classList.remove('open');
+      toggle.classList.remove('open');
+      toggle.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  /* Scroll reveal */
+  var revealEls = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add('in-view'); io.unobserve(e.target); }
+      });
+    }, { threshold: .12, rootMargin: '0px 0px -40px 0px' });
+    revealEls.forEach(function (el) { io.observe(el); });
+  } else {
+    revealEls.forEach(function (el) { el.classList.add('in-view'); });
+  }
+
+  /* Scroll-spy for nav links */
+  var spyLinks = Array.prototype.slice.call(document.querySelectorAll('.nav-links a[href^="#"]'));
+  var idToLink = {};
+  spyLinks.forEach(function (a) { idToLink[a.getAttribute('href').slice(1)] = a; });
+  if ('IntersectionObserver' in window) {
+    var spy = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting && idToLink[e.target.id]) {
+          spyLinks.forEach(function (a) { a.classList.remove('active'); });
+          idToLink[e.target.id].classList.add('active');
+        }
+      });
+    }, { rootMargin: '-35% 0px -60% 0px' });
+    Object.keys(idToLink).forEach(function (id) {
+      var s = document.getElementById(id);
+      if (s) spy.observe(s);
+    });
+  }
+
+  /* Subtle parallax on hero visual */
+  var hv = document.querySelector('.hero-visual');
+  if (hv && window.matchMedia('(prefers-reduced-motion: no-preference)').matches) {
+    var ticking = false;
+    window.addEventListener('scroll', function () {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(function () {
+          hv.style.transform = 'translateY(' + (window.scrollY * .06) + 'px)';
+          ticking = false;
+        });
+      }
+    }, { passive: true });
+  }
+})();
+</script>
+</body>
+</html>
