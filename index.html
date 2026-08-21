@@ -1299,6 +1299,166 @@ input { font-family: inherit; }
     </div>
   </section>
 
+  <!-- ================= CASE STUDY 2: LABEL PRINTING ================= -->
+  <section class="section cs-section">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="section-label"><span class="idx">02b</span> <span data-i18n="sec.cs.label">Studi Kasus</span></span>
+        <h2 data-i18n="cs2.title">Sistem Cetak Label Spesifikasi Laptop</h2>
+        <p class="section-sub" data-i18n="cs2.sub">Membangun alat internal untuk membuat label spesifikasi laptop standar dengan cepat - menghilangkan cetak manual dan memastikan konsistensi.</p>
+      </div>
+
+      <div class="cs-shot reveal" aria-hidden="true">
+        <img class="project-shot" src="images/label.png" alt="Screenshot Sistem Cetak Label Spesifikasi Laptop" loading="lazy" onload="this.parentNode.classList.add('has-shot')" onerror="this.style.display='none'">
+        <div class="browser">
+          <div class="browser-bar">
+            <span class="browser-dots"><i></i><i></i><i></i></span>
+            <span class="browser-url"><span class="lock"></span>label.mataharilaptop.com</span>
+          </div>
+          <div class="browser-body p03">
+            <div class="p03-form">
+              <span class="p03-fhead">Product Information</span>
+              <label class="field"><span>Product Name</span><input value="Aspire 5 A515-57" readonly></label>
+              <label class="field"><span>Brand</span><input value="Acer" readonly></label>
+              <div class="p03-row2">
+                <label class="field"><span>CPU</span><input value="Core i5-1235U" readonly></label>
+                <label class="field"><span>RAM</span><input value="8GB DDR4" readonly></label>
+              </div>
+              <div class="p03-row2">
+                <label class="field"><span>Storage</span><input value="512GB SSD" readonly></label>
+                <label class="field"><span>Display</span><input value="15.6″ FHD" readonly></label>
+              </div>
+            </div>
+            <div class="p03-right">
+              <div class="p03-layouts">
+                <span class="lay active">Layout A</span><span class="lay">Layout B</span><span class="lay">Layout C</span>
+              </div>
+              <div class="p03-preview">
+                <div class="label">
+                  <div class="label-head"><span class="label-brand">MATAHARI LAPTOP</span><span class="label-code">ML-2601</span></div>
+                  <div class="label-specs">
+                    <div class="ls"><span>Model</span><b>Aspire 5 A515-57</b></div>
+                    <div class="ls"><span>CPU</span><b>Core i5-1235U</b></div>
+                    <div class="ls"><span>RAM</span><b>8GB DDR4</b></div>
+                    <div class="ls"><span>Storage</span><b>512GB SSD</b></div>
+                    <div class="ls"><span>Display</span><b>15.6″ FHD</b></div>
+                  </div>
+                  <span class="barcode"></span>
+                </div>
+              </div>
+              <div class="p03-actions">
+                <span class="btn-print">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V3h12v6"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+                  Print Label
+                </span>
+                <span class="btn-save">Save</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cs-overview reveal">
+        <div>
+          <h3 data-i18n="cs2.overview.h">Ikhtisar Proyek</h3>
+          <p data-i18n="cs2.overview.p">Sistem ini dibangun untuk menggantikan proses cetak label manual yang lambat dan tidak konsisten. Dengan memasukkan spesifikasi produk sekali saja, tim bisa langsung memilih template label dan mencetaknya - menghemat waktu dan mengurangi kesalahan.</p>
+        </div>
+        <div>
+          <h3 data-i18n="cs2.approach.h">Pendekatan</h3>
+          <p data-i18n="cs2.approach.p">Dibangun dengan Laravel dan MySQL, aplikasi ini menyediakan antarmuka form yang sederhana dengan preview label real-time. Beberapa layout tersedia untuk kebutuhan berbeda, dan hasil cetak terintegrasi langsung dengan printer label yang ada.</p>
+        </div>
+      </div>
+
+      <div class="cs-cards">
+        <div class="cs-card reveal" style="--d:.05s">
+          <span class="cs-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></span>
+          <h4 data-i18n="cs2.problem.h">Masalah</h4>
+          <p data-i18n="cs2.problem.p">Label spesifikasi dicetak secara manual atau ditulis tangan. Proses ini memakan waktu, rawan kesalahan, dan menghasilkan label yang tidak konsisten antar produk.</p>
+        </div>
+        <div class="cs-card reveal" style="--d:.1s">
+          <span class="cs-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span>
+          <h4 data-i18n="cs2.solution.h">Solusi</h4>
+          <p data-i18n="cs2.solution.p">Aplikasi internal berbasis web yang memungkinkan pengguna mengisi spesifikasi produk, memilih layout label, dan mencetak langsung - dengan preview real-time sebelum cetak.</p>
+        </div>
+        <div class="cs-card reveal" style="--d:.15s">
+          <span class="cs-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
+          <h4 data-i18n="cs2.role.h">Peran Saya</h4>
+          <p data-i18n="cs2.role.p">Full-Stack Developer - perancangan basis data, backend API, antarmuka form dengan preview, integrasi pencetakan, dan deployment untuk penggunaan internal.</p>
+        </div>
+      </div>
+
+      <div class="cs-block reveal">
+        <div class="cs-block-title" data-i18n="cs2.features.h">Fitur Utama</div>
+        <div class="cs-features">
+          <div class="cs-feature"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Form input spesifikasi produk yang intuitif</div>
+          <div class="cs-feature"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Beberapa layout label (A, B, C) untuk kebutuhan berbeda</div>
+          <div class="cs-feature"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Preview label real-time sebelum mencetak</div>
+          <div class="cs-feature"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Integrasi cetak langsung ke printer label</div>
+          <div class="cs-feature"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Penyimpanan data produk untuk cetak ulang cepat</div>
+          <div class="cs-feature"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Barcode otomatis pada setiap label</div>
+        </div>
+      </div>
+
+      <div class="cs-block reveal">
+        <div class="cs-block-title" data-i18n="cs2.tech.h">Teknologi</div>
+        <div class="cs-tech">
+          <span class="tech-chip">PHP</span>
+          <span class="tech-chip">Laravel</span>
+          <span class="tech-chip">MySQL</span>
+          <span class="tech-chip">JavaScript</span>
+          <span class="tech-chip">Barcode Generation</span>
+          <span class="tech-chip">Label Printing</span>
+        </div>
+      </div>
+
+      <div class="cs-block reveal">
+        <div class="cs-block-title" data-i18n="cs2.process.h">Proses Pengembangan</div>
+        <div class="cs-steps">
+          <div class="cs-step">
+            <div class="cs-step-num">01</div>
+            <h5 data-i18n="cs2.step1.h">Identifikasi Kebutuhan</h5>
+            <p data-i18n="cs2.step1.p">Amati alur pelabelan saat ini dan temukan bottleneck utama.</p>
+          </div>
+          <div class="cs-step">
+            <div class="cs-step-num">02</div>
+            <h5 data-i18n="cs2.step2.h">Desain Template</h5>
+            <p data-i18n="cs2.step2.p">Buat beberapa layout label yang bisa dipilih sesuai kebutuhan.</p>
+          </div>
+          <div class="cs-step">
+            <div class="cs-step-num">03</div>
+            <h5 data-i18n="cs2.step3.h">Bangun Aplikasi</h5>
+            <p data-i18n="cs2.step3.p">Form input, preview real-time, dan integrasi backend Laravel.</p>
+          </div>
+          <div class="cs-step">
+            <div class="cs-step-num">04</div>
+            <h5 data-i18n="cs2.step4.h">Integrasi Cetak</h5>
+            <p data-i18n="cs2.step4.p">Hubungkan output ke printer label yang sudah ada di toko.</p>
+          </div>
+          <div class="cs-step">
+            <div class="cs-step-num">05</div>
+            <h5 data-i18n="cs2.step5.h">Uji &amp; Rilis</h5>
+            <p data-i18n="cs2.step5.p">Uji coba dengan staf, kumpulkan masukan, dan luncurkan.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="cs-result reveal">
+        <div class="cs-result-card">
+          <div class="r-title" data-i18n="cs2.result1.t">LABEL INSTAN</div>
+          <p data-i18n="cs2.result1.p">Cetak label spesifikasi dalam hitungan detik, bukan menit - langsung dari browser.</p>
+        </div>
+        <div class="cs-result-card">
+          <div class="r-title" data-i18n="cs2.result2.t">KONSISTEN</div>
+          <p data-i18n="cs2.result2.p">Setiap label terlihat seragam dan profesional, tidak ada lagi tulisan tangan yang berantakan.</p>
+        </div>
+        <div class="cs-result-card">
+          <div class="r-title" data-i18n="cs2.result3.t">MOBILITAS</div>
+          <p data-i18n="cs2.result3.p">Bisa diakses dari perangkat mana saja - tidak perlu komputer khusus untuk mencetak label.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ================= SKILLS ================= -->
   <section class="section skills-section" id="skills">
     <div class="container">
@@ -1430,14 +1590,14 @@ input { font-family: inherit; }
             <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
             <span data-i18n="contact.email">Email Saya</span>
           </a>
-          <a href="https://github.com/MzXax1" target="_blank" rel="noopener" class="btn btn-ghost">
+          <a href="https://github.com/" target="_blank" rel="noopener" class="btn btn-ghost">
             <svg class="ic" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
             <span data-i18n="contact.github">GitHub</span>
           </a>
-          <!-- <a href="https://linkedin.com/" target="_blank" rel="noopener" class="btn btn-ghost">
+          <a href="https://linkedin.com/" target="_blank" rel="noopener" class="btn btn-ghost">
             <svg class="ic" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"/></svg>
             <span data-i18n="contact.linkedin">LinkedIn</span>
-          </a> -->
+          </a>
         </div>
       </div>
     </div>
@@ -1448,6 +1608,7 @@ input { font-family: inherit; }
 <footer class="footer">
   <div class="container footer-inner">
     <div class="footer-meta"><strong>Galih Pandawa Putra</strong> · © 2026</div>
+    <div class="footer-note" data-i18n="footer.note">Dibuat dengan <em>passion</em> dan kode.</div>
     <a href="#home" class="to-top">
       <span data-i18n="footer.top">Kembali ke atas</span>
       <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
